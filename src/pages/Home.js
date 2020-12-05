@@ -81,19 +81,19 @@ function Home (props) {
 
     return (
         <>
-            <Grid container  spacing={2}>
+            <Grid container  >
 
                 <Grid item xs = {12} md = {12} lg = {12} >
                     <Title title={'Autenticar'}/>
                 </Grid>
                     
-                <Grid item xs = {12}  md = {5} lg = {5} >
+                <Grid item xs = {11}  md = {5} lg = {5} >
 
                     <Card style={ { marginTop : '50px '} }>
                         <CardContent>
                             <Grid container  spacing={2}>
                                 
-                                <Grid item xs = {12} md = {12} lg = {12} >
+                                <Grid item xs = {12} md = {12} lg = {11} >
 
                                     <InputLabel htmlFor="input-with-icon-adornment">Ingrese Rut</InputLabel>
                                     <Input

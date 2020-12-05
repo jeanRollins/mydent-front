@@ -1,7 +1,7 @@
-import React from 'react';
-import { AppBar , Toolbar , Typography  } from '@material-ui/core/';
+import React, { useState , useEffect } from 'react';
 import MenuResponsive from './MenuResponsive/index';
 import Grid from '@material-ui/core/Grid';
+import { GetItemJson } from '../libs/Storage';
             
 
 const styles = {
@@ -23,10 +23,13 @@ const styles = {
 
 } ;
 
-function Header () {  
+function Header (props) {  
 
   const logo = '../../assets/62e5d8b0b4a22528a161d71b2dcaab6e.jpg' ;
 
+
+
+  //console.log('props.user'  , props.user);
   return (
     <>
       <div style = { styles.header } >
@@ -38,9 +41,11 @@ function Header () {
               
             </Grid>
             <Grid item xs={6}>
-                <div style = { styles.buttonPosition}>
+                <div style = { styles.buttonPosition }>
 
-                <MenuResponsive   />
+                  { /* (  props.user != undefined ) && <MenuResponsive /> */ }
+
+                  <MenuResponsive /> 
                 </div>
               
             </Grid>

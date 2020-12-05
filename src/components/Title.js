@@ -4,9 +4,22 @@ import { Typography  } from '@material-ui/core/';
 
 const Title = props => {
         
+    const type = ( props.type == undefined ) ? 'primary' : props.type ;
+    let   size  = '' ; 
+    let   align = '' ; 
+
+    if( type == 'secondary' ){
+        size   = 'h6' ;
+        align  = 'left' ;
+    }
+    else{
+        size   = 'h4' ;
+        align  = 'center' ;
+    }
 
     return(
-        <Typography variant="h5" align="center" style={ { color : '#595959' , marginTop : '50px' } } gutterBottom>
+
+        <Typography variant={ size } align={ align } style={ { color : '#595959' , margin : '50px 0px 30px 0px ' } } gutterBottom>
             { props.title }
         </Typography>
     )
