@@ -64,8 +64,8 @@ function Dashboard () {
                         type  = { 'secondary' }    
                     />
                     <TableResponsive 
-                        rows = {rows}
-                        columns = {columns} 
+                        rows     = {rows}
+                        columns  = {columns} 
                         selected = { false }
                     />
                 </Grid>

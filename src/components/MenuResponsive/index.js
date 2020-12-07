@@ -8,28 +8,7 @@ import { withRouter, Link } from 'react-router-dom'
 
 
 
-const menu = [
-  {
-    name : 'Home' ,
-    url : '/dashboard'
-  },
-  {
-    name : 'Presupuestos' ,
-    url : '/presupuesto'
-  },
-  {
-    name : 'Ficha Médica' ,
-    url : '/ficha_medica'
-  },
-  {
-    name : 'Agenda' ,
-    url : '/agenda'
-  },
-  {
-    name : 'Envío Correos' ,
-    url : '/correos'
-  }
-] ;
+
 
 const styles = {
  
@@ -37,8 +16,7 @@ const styles = {
     color : '#FFFFFF',
     textDecoration : 'none' 
   }
-
-
+  
 } ;
 
 const props = ( props ) => {
@@ -52,7 +30,7 @@ const props = ( props ) => {
 
   return (
     <Menu {...props} right >
-      { menu.map( (row , index) => (
+      { props.menu.map( ( row , index ) => (
         <div key = { index }>      
           <Link   
             to        = { row.url }
