@@ -1,22 +1,22 @@
  
 import React from 'react'
-import { useMediaQuery }  from 'react-responsive'
+import { useMediaQuery } from 'react-responsive'
 
 
 export default function MediaQuery(device){
 
     const Desktop = ({ children }) => {
         const isDesktop = useMediaQuery({ minWidth: 992 })
-        return isDesktop ? children : null
+        return isDesktop ? children : null ;
     }
 
     const Tablet = ({ children }) => {
         const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
-        return isTablet ? children : null
+        return isTablet ? children : null ;
     }
     const Mobile = ({ children }) => {
         const isMobile = useMediaQuery({ maxWidth: 767 })
-        return isMobile ? children : null
+        return isMobile ? children : null ;
     }
 
     if( device == 'desktop' )

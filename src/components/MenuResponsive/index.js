@@ -1,13 +1,8 @@
 import React from 'react';
-
 import "./index.css";
-
-import { slide as Menu } from "react-burger-menu";
-import { ClearStorage } from '../../libs/Storage';
-import { withRouter, Link } from 'react-router-dom'
-
-
-
+import { slide as Menu }     from  "react-burger-menu" ;
+import { ClearStorage }      from  '../../libs/Storage' ;
+import { withRouter, Link }  from  'react-router-dom' ;
 
 
 const styles = {
@@ -16,13 +11,13 @@ const styles = {
     color : '#FFFFFF',
     textDecoration : 'none' 
   }
-  
+
 } ;
 
 const props = ( props ) => {
   
-  const closeSession = (e) => {
-    e.preventDefault();
+  const closeSession = ( e ) => {
+    e.preventDefault() ;
     ClearStorage() ;
     props.history.push('/') ;
   }

@@ -1,0 +1,120 @@
+.diente{
+    margin-top: 10px;
+    position: relative;
+    width: 70px;
+    height: auto;
+    display: inline-table;
+    margin-left: 5px;
+    border: solid 1px black;
+}
+
+.cuadro {
+    background-color: #FFFFFF;
+    border: 1px solid #7F7F7F;
+    position: relative;
+    width: 25px;
+    height: 14px;
+    left: 24px;
+    -webkit-border-radius: 80px 80px 0px 15px;
+    -moz-border-radius: 80px 80px 0px 15px;
+    border-radius: 80px 80px 0px 15px;
+    cursor: pointer;
+    
+}
+
+.izquierdo {
+    top: 5px !important;
+    left: 4px !important;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+    cursor: pointer;
+}
+
+
+.derecha {
+    top: -27.5px !important;
+    left: 44px !important;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    cursor: pointer;
+}
+
+.debajo {
+    top: 9px !important;
+    left: 24px !important;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    cursor: pointer;
+}
+
+
+.centro {
+    background-color: #FFFFFF;
+    border: 1px solid #7F7F7F;
+    width: 25px;
+    height: 25px;
+    top: -49px;
+    left: 24px;
+    position: relative;
+    cursor: pointer;
+}
+
+
+.izquierdo:hover{
+    background-color: #BFBFBF;
+    
+}
+
+.derecha:hover{
+    background-color: #BFBFBF;
+    
+}
+
+.centro:hover{
+    background-color: #BFBFBF;
+    
+}
+
+.debajo:hover{
+    background-color: #BFBFBF;
+    
+}
+
+.cuadro:hover{
+    background-color: #BFBFBF;
+    
+}
+
+
+
+.numeroDiente{
+    cursor: pointer;
+}
+
+.extraccion{
+    background-color: gray;
+}
+
+.carie{
+    background-color: green;
+}
+
+
+
+.extraccion{
+    background-color: black;
+}
+
+
+.tapadura{
+    background-color: blue;
+}

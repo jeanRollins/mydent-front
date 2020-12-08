@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import MenuResponsive from './MenuResponsive/index';
-import {Grid , Container} from '@material-ui/core/';
+import {Grid , Container , Box} from '@material-ui/core/';
 import { GetItemJson } from '../libs/Storage';
 import MediaQuery from '../libs/MediaQuery';
 import { withRouter, Link } from 'react-router-dom'
@@ -28,7 +28,7 @@ const styles = {
       height: '100%'
     },
     lg : {
-      width: '50%'   ,
+      width: '78%'   ,
       height: '100%'
     }
      
@@ -36,6 +36,8 @@ const styles = {
   link : {
     color : '#FFFFFF', 
     textDecoration : 'none' ,
+    margin : '0px 10px 0px 10px ' ,
+    height : '100%',
     "&:hover" :{
       color :  '#0047b3'
     } 
@@ -79,6 +81,7 @@ function Header (props) {
   return (
     <>
       <div style = { styles.header } >
+
         <Container fixed >
           <Grid container >
 
@@ -107,11 +110,34 @@ function Header (props) {
               xl = { 6 }
 
             >
-              <div style = { styles.buttonPosition }>
+              <div style = { {height: '100%'} }>
 
                 { /* (  props.user != undefined ) && <MenuResponsive /> */ }
+                <Mobile>
+                  <MenuResponsive menu={menu} /> 
+                </Mobile>
 
-                <MenuResponsive menu={menu} /> 
+                <Tablet>
+                  <MenuResponsive menu={menu} /> 
+                </Tablet>
+
+                <Desktop>
+                  <Box  style = { {marginTop: '55px'} } className="menuSystem">
+                    { menu.map( row => (
+                      <Link   
+                        to        = { row.url }
+                        style     = { styles.link }
+                        className = "monserrat700"
+                        alignSelf = "flex-end"
+                      >
+                        { row.name }
+                      </Link>
+                      
+                    ))}
+                  </Box>
+                  
+                </Desktop>
+                  
               </div>
               
             </Grid>
@@ -120,7 +146,7 @@ function Header (props) {
 
         </Container>         
       </div>
-     
+
     </>
    
   );

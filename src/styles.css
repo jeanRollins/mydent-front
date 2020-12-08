@@ -1,5 +1,11 @@
 *{
     font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+}
+
+.monserrat700{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
 }
 
 .MuiGrid-spacing-xs-3{
