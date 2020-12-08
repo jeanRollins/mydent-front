@@ -4,7 +4,7 @@ import {Grid , Container , Box} from '@material-ui/core/';
 import { GetItemJson } from '../libs/Storage';
 import MediaQuery from '../libs/MediaQuery';
 import { withRouter, Link } from 'react-router-dom'
-
+import { ClearStorage }      from  '../libs/Storage' ;
 
 
 const styles = {
@@ -28,7 +28,7 @@ const styles = {
       height: '100%'
     },
     lg : {
-      width: '78%'   ,
+      width: '47%'   ,
       height: '100%'
     }
      
@@ -46,6 +46,9 @@ const styles = {
 } ;
 
 function Header (props) {  
+
+  const [user, setUser] = useState( null ) ;
+  const [t, setT] = useState( null ) ;
 
   const menu = [
     {
@@ -70,6 +73,26 @@ function Header (props) {
     }
   ] ;
 
+  const closeSession = async ( e ) => {
+    e.preventDefault() ;
+    await ClearStorage() ;
+    await  setUser(null) ;
+    setT('jj')
+    props.history.push('/') ;
+  }
+
+  const setDataUser = () => {
+    setUser( GetItemJson('user') ) ;
+    console.log('user***' , user);
+  }
+
+  useEffect( () => {
+
+    setDataUser() ;
+  },[t]) ;
+
+  console.log('user' , user) ;
+
   const logo = '../../assets/logo_mydent.png' ;
 
 
@@ -82,7 +105,7 @@ function Header (props) {
     <>
       <div style = { styles.header } >
 
-        <Container fixed >
+        <Container maxWidth="xl" >
           <Grid container >
 
             <Grid 
@@ -110,35 +133,40 @@ function Header (props) {
               xl = { 6 }
 
             >
-              <div style = { {height: '100%'} }>
+              { ( user != null ) && (
+                <>
+                  <div style = { {height: '100%'} }>
+                    <Mobile>
+                      <MenuResponsive menu={menu} /> 
+                    </Mobile>
 
-                { /* (  props.user != undefined ) && <MenuResponsive /> */ }
-                <Mobile>
-                  <MenuResponsive menu={menu} /> 
-                </Mobile>
+                    <Tablet>
+                      <MenuResponsive menu={menu} /> 
+                    </Tablet>
 
-                <Tablet>
-                  <MenuResponsive menu={menu} /> 
-                </Tablet>
+                    <Desktop>
+                      <Box  style = { {marginTop: '55px'} } className="menuSystem">
+                        { menu.map( ( row , index ) => (
+                          <Link   
+                            key       = { index }
+                            to        = { row.url }
+                            style     = { styles.link }
+                            className = "monserrat700"
+                          >
+                            { row.name }
+                          </Link>
+                          
+                        ))}
+                          <a style= { styles.link } onClick = { e => closeSession( e ) } > Cerrar sesión  </a>
 
-                <Desktop>
-                  <Box  style = { {marginTop: '55px'} } className="menuSystem">
-                    { menu.map( row => (
-                      <Link   
-                        to        = { row.url }
-                        style     = { styles.link }
-                        className = "monserrat700"
-                        alignSelf = "flex-end"
-                      >
-                        { row.name }
-                      </Link>
+                      </Box>
                       
-                    ))}
-                  </Box>
-                  
-                </Desktop>
-                  
-              </div>
+                    </Desktop>
+  
+                  </div>
+                </>
+              )}
+            
               
             </Grid>
 
@@ -151,5 +179,4 @@ function Header (props) {
    
   );
 }
-
-export default Header ;
+export default  withRouter( Header )  ;

@@ -18,16 +18,6 @@ function App( props ) {
 
   const [user, setUser] = useState({}) ;
   
-  const isUserActive = () => {
-    if( user.id == undefined ) {
-      props.history.push('/') ;
-      return ;
-    }
-  }
-  //isUserActive() ;
-  
-  //console.log( 'item*' , GetItemJson('user') ) ;
-  
 
   return (
     

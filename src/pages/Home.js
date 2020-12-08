@@ -15,18 +15,21 @@ import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import   AccountCircle from '@material-ui/icons/AccountCircle';
 import { SignIn } from '../services/Login';
-import { AddItemJson } from '../libs/Storage';
+import { AddItemJson, GetItemJson } from '../libs/Storage';
 
 function Home (props) {  
 
     let [rut, setRut] = useState('') ;
     let [password, setPassword] = useState('') ; 
 
+    //const [ user   , setUser   ]  =  useState( {} ) ;
+
     const [ textFailRut   , setTextFailRut   ]  =  useState( false ) ;
     const [ textFailPass  , setTextFailPass  ]  =  useState( false ) ;
     const [ textFailSigIn , setTextFailSigIn ]  =  useState( false ) ;
     const [ statusButtonSignIn , setStatusButtonSignIn ]  =  useState( false ) ;
     const [ textButtonSignIn , setTextButtonSignIn ]  =  useState( 'Acceder' ) ;
+
 
 
     const signIn = async () => {

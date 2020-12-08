@@ -1,1 +1,1 @@
-export const RUTE_SERVICE = 'http://localhost:3000' ;
+export const RUTE_SERVICE = 'https://mydent-api.herokuapp.com' ;
