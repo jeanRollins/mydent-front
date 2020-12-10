@@ -3,6 +3,7 @@ import React, { useState} from 'react';
 import { Card ,
         CardContent ,
         Grid , 
+        Container,
         Button, 
         Input , 
         Typography, 
@@ -16,6 +17,18 @@ import { withRouter } from 'react-router-dom'
 import   AccountCircle from '@material-ui/icons/AccountCircle';
 import { SignIn } from '../services/Login';
 import { AddItemJson, GetItemJson } from '../libs/Storage';
+import ImagePrincipal from '../components/ImagePrincipal';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+
+
+
+
+const styles = { 
+    itemMarginTop : {
+        marginTop : '15px'
+    },
+
+};
 
 function Home (props) {  
 
@@ -58,7 +71,10 @@ function Home (props) {
             return false ;
         }
         await AddItemJson( 'user' , isAuth.auth.data ) ;
-        props.history.push('/dashboard')
+
+          window.location.pathname = "/back/dashboard"  ;
+
+        //props.history.push('/back/dashboard')
         
         
     }
@@ -70,98 +86,104 @@ function Home (props) {
             return false ;
         }
         setTextFailRut( false );
-
-        
+    
         if( password == '' ){
             setTextFailPass( true);
             return false ;
         }
-
         setTextFailPass( false );
-
         return true
     }
 
     return (
         <>
-            <Grid container  >
+            <Container fixed>
+                <Grid container  >
 
-                <Grid item xs = {12} md = {12} lg = {12} >
-                    <Title title={'Autenticar'}/>
-                </Grid>
+                <ImagePrincipal
+                    title={'Autenticar'}
+                />
                     
-                <Grid item xs = {11}  md = {5} lg = {5} >
+                <Grid item xs = {12}  md = {12} lg = {12} >
 
-                    <Card style={ { marginTop : '50px '} }>
-                        <CardContent>
-                            <Grid container  spacing={2}>
-                                
-                                <Grid item xs = {12} md = {12} lg = {11} >
+  
+                    <Grid container  spacing={2} style={styles.itemMarginTop}>
+                        <Grid  item xs = {1} md = {4} lg = {4} > </Grid>
+                        <Grid  item xs = {10} md = {4} lg = {4} >
 
-                                    <InputLabel htmlFor="input-with-icon-adornment">Ingrese Rut</InputLabel>
-                                    <Input
-                                        fullWidth
-                                        placeholder="ej: 18191387-8"
-                                        id="input-with-icon-adornment"
-                                        onChange={ e => setRut( e.target.value ) } 
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <AccountCircle />
-                                            </InputAdornment>
-                                        }
-                                    />
+                            <InputLabel htmlFor="input-with-icon-adornment">Ingrese Rut</InputLabel>
+                            <Input
+                                fullWidth
+                                placeholder="ej: 18191387-8"
+                                id="input-with-icon-adornment"
+                                onChange={ e => setRut( e.target.value ) } 
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                }
+                            />
 
-                                </Grid>
-                                    { (textFailRut ) &&    <Typography variant="subtitle1" style={ styleTextFail } > Debe agregar su rut  </Typography>   }   
+                            { (textFailRut ) &&    <Typography variant="subtitle1" style={ styleTextFail } > Debe agregar su rut  </Typography>   }   
+                        </Grid>
+                    </Grid>
+                    <Grid container style={styles.itemMarginTop} spacing={2}>
 
-                                <Grid item xs = {12} md = {12} lg = {12} >
+                        <Grid  item xs = {1} md = {4} lg = {4} > </Grid>
+                        <Grid  item xs = {10} md = {4} lg = {4} >
 
-                                <InputLabel htmlFor="input-with-icon-adornment">Password</InputLabel>
-                                    <Input
-                                        fullWidth
-                                        id="input-with-icon-adornment"
-                                        type="password"
-                                        onChange={ e => setPassword( e.target.value ) } 
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <AccountCircle />
-                                            </InputAdornment>
-                                        }
-                                    />
+                            <InputLabel htmlFor="input-with-icon-adornment">Password</InputLabel>
+                                <Input
+                                    fullWidth
+                                    id="input-with-icon-adornment"
+                                    type="password"
+                                    onChange={ e => setPassword( e.target.value ) } 
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <VpnKeyIcon />
+                                        </InputAdornment>
+                                    }
+                            />
 
-                                    { (textFailPass) &&    <Typography variant="subtitle1" style={ styleTextFail }>  Debe agregar una constraseña </Typography>   }   
+                            { (textFailPass) &&    <Typography variant="subtitle1" style={ styleTextFail }>  Debe agregar una constraseña </Typography>   }   
 
-                                   
-                                </Grid>
+                            
+                        </Grid>
+                    </Grid>
+                    <Grid container  spacing={2} style={styles.itemMarginTop}>
+                    
+                        <Grid  item xs = {1} md = {4} lg = {4} > </Grid>
+                        <Grid  item xs = {10} md = {4} lg = {4} >
+                            <Typography variant="body2" gutterBottom>
+                                Para recuperar contraseña presione <Link  to = "/recoverypass"  className="navLink  " > aquí  </Link>
+                            </Typography>
+                        </Grid>
+                    </Grid>
 
-                                <Grid item xs = {12} md = {12} lg = {12} >
-                                    <Typography variant="body2" gutterBottom>
-                                        Para recuperar contraseña presione <Link  to = "/recoverypass"  className="navLink  " > aquí  </Link>
-                                    </Typography>
-                                </Grid>
+                    <Grid container  spacing={2}>
 
-                                <Grid item xs = {12} md = {12} lg = {12} >
+                        <Grid  item xs = {1} md = {4} lg = {4} > </Grid>
+                        <Grid  item xs = {10} md = {4} lg = {4} >
 
-                                { (textFailSigIn) &&  <Typography variant="subtitle1" style={ styleTextFail }>  Usuario o contraseña invalida. </Typography>   }   
+                        { (textFailSigIn) &&  <Typography variant="subtitle1" style={ styleTextFail }>  Usuario o contraseña invalida. </Typography>   }   
 
-                                    <Button 
-                                        fullWidth 
-                                        variant="contained" 
-                                        color="primary"
-                                        onClick = { e =>  signIn() }
-                                        disabled = { statusButtonSignIn }
-                                    > 
-                                        { textButtonSignIn } 
-                                    </Button>
-                                </Grid>
+                            <Button 
+                                fullWidth 
+                                variant="contained" 
+                                color="primary"
+                                onClick = { e =>  signIn() }
+                                disabled = { statusButtonSignIn }
+                            > 
+                                { textButtonSignIn } 
+                            </Button>
+                        </Grid>
 
-                            </Grid>
-                        </CardContent>
-                    </Card>
+                    </Grid>
                   
                 </Grid>
 
             </Grid>
+            </Container>
         </>
         
     

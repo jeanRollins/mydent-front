@@ -22,7 +22,9 @@ const props = ( props ) => {
   const closeSession = ( e ) => {
     e.preventDefault() ;
     ClearStorage() ;
-    props.history.push('/') ;
+    //props.history.push('/') ;
+    window.location.pathname = "/"  ;
+
   }
 
 

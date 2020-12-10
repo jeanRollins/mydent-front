@@ -8,6 +8,16 @@
     font-weight: 700;
 }
 
+.monserrat400{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.monserrat500{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
 .MuiGrid-spacing-xs-3{
     width: 100% !important;
     margin: 0px;
