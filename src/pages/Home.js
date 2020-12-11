@@ -19,6 +19,7 @@ import { SignIn } from '../services/Login';
 import { AddItemJson, GetItemJson } from '../libs/Storage';
 import ImagePrincipal from '../components/ImagePrincipal';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { ValidSession } from '../libs/Session';
 
 
 
@@ -32,10 +33,11 @@ const styles = {
 
 function Home (props) {  
 
+    ValidSession() ;
+
+
     let [rut, setRut] = useState('') ;
     let [password, setPassword] = useState('') ; 
-
-    //const [ user   , setUser   ]  =  useState( {} ) ;
 
     const [ textFailRut   , setTextFailRut   ]  =  useState( false ) ;
     const [ textFailPass  , setTextFailPass  ]  =  useState( false ) ;

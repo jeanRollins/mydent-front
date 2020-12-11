@@ -5,6 +5,7 @@ import { GetItemJson } from '../libs/Storage';
 import  Grid  from '@material-ui/core/Grid';
 import TableResponsive from '../components/Table';
 import { DayCurrent } from '../libs/Commons';
+import { ValidSession } from '../libs/Session';
 
 
 const styles = { 
@@ -18,6 +19,8 @@ const styles = {
 
 function Dashboard () {  
 
+    ValidSession('back') ;
+    
     const rows = [
         { id: 1, name: 'Jon Snow',   time: '09:00',    status: 'Atendido' },
         { id: 2, name: 'Lannister',  time: '09:30',    status: 'Atendido' },

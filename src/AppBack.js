@@ -6,12 +6,7 @@ import { GetItem, GetItemJson } from './libs/Storage';
 import Routes from './Routes';
 
 
-
-
 function AppBack( props ) {  
-
-
-
     return (
         
         <Router>

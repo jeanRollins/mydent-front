@@ -78,7 +78,6 @@ function HeaderBack( props ) {
       //props.history.replace("/")
       window.location.href = "/"  ;
     }
-    console.log('user' , user);
     const setDataUSer = async () => await setUser( GetItemJson('user') )  
 
 
@@ -106,10 +105,22 @@ function HeaderBack( props ) {
               >
 
                 <Mobile>
-                  <img style={ styles.logo.sm }  src={ logo }/ >
+                  <Link   
+                    to        = { '/back/dashboard' }
+                    style     = { styles.link }
+                  >
+                    <img style={ styles.logo.sm }  src={ logo }/ >
+                    
+                  </Link>
                 </Mobile>
                 <Desktop>
-                  <img style={ styles.logo.lg }  src={ logo }/ >
+                  <Link   
+                      to        = { '/back/dashboard' }
+                      style     = { styles.link }
+                    >
+                      <img style={ styles.logo.lg }  src={ logo }/ >
+                      
+                    </Link>
                 </Desktop>
               </Grid>
               <Grid 

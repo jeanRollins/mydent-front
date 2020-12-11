@@ -6,3 +6,10 @@ export const SignIn = async ( user ) => {
     const response = await axios.post( url , user ) ;
     return response.data ;
 }
+
+export const ValidToken = async ( rut , token ) => {
+    const data = { rut , token } ;
+    const url = RUTE_SERVICE + '/login/validToken' ;
+    const response = await axios.post( url , data ) ;
+    return response.data ;
+}

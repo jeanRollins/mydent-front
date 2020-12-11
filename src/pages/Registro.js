@@ -15,6 +15,7 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import PersonIcon from '@material-ui/icons/Person';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import SendIcon from '@material-ui/icons/Send';
+import { ValidSession } from '../libs/Session';
 const styles = {
     itemInput: {
         marginTop : '20px'
@@ -22,6 +23,8 @@ const styles = {
 } ;
 
 export default function Registro(  ) {  
+
+    ValidSession() ;
 
     const Mobile  =  MediaQuery('mobile') ;
     const Tablet  =  MediaQuery('tablet') ;

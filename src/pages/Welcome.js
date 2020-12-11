@@ -5,6 +5,7 @@ import  {
   }  from '@material-ui/core/';
 import MediaQuery from '../libs/MediaQuery';
 import ImagePrincipal from '../components/ImagePrincipal';
+import { ValidSession } from '../libs/Session';
 
 
 const styles = {
@@ -19,6 +20,7 @@ const styles = {
 
 export default function Welcome(  ) {  
 
+    ValidSession() ; 
     const Mobile  =  MediaQuery('mobile') ;
     const Tablet  =  MediaQuery('tablet') ;
     const Desktop =  MediaQuery('desktop') ;
