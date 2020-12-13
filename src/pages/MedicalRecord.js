@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { Container, Typography, Button, Grid } from '@material-ui/core'
 import Title from '../components/Title';
 import {Link} from 'react-router-dom' ;
+import { ValidSession } from '../libs/Session';
 
 const columns = [
     { id: 'name', label: 'Nombre Odontologo', minWidth: 170 },
@@ -53,6 +54,9 @@ const useStyles = makeStyles({
 });
 
 export const MedicalRecord = () => {
+
+    ValidSession('back') ;
+
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);

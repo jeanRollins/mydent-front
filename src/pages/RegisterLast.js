@@ -106,7 +106,6 @@ export default function RegisterLast(  ) {
         const registerData     =  await GetItemJson('register') ;
         
         registerData.password  =  password1 ;
-        console.log('registerData' , registerData);
 
         const responseAdd = await AddUser( registerData ) ;
 
@@ -117,15 +116,10 @@ export default function RegisterLast(  ) {
 
         setAddUserValid(false) ;
         setTitle('Registro valido!') ;
-        console.log('====================================');
-        console.log(responseAdd);
-        console.log('====================================');
         originalStateButton() ;
 
     } 
 
-
-    const principalImage = "../../assets/62e5d8b0b4a22528a161d71b2dcaab6e - copia (copia).png";
 
     return (
         <>

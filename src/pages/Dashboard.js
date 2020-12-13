@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState , useEffect} from 'react';
 import Title from '../components/Title';
 import { GetItemJson } from '../libs/Storage';
 
@@ -6,6 +6,7 @@ import  Grid  from '@material-ui/core/Grid';
 import TableResponsive from '../components/Table';
 import { DayCurrent } from '../libs/Commons';
 import { ValidSession } from '../libs/Session';
+import SpinnerLoad from '../components/SpinnerLoad';
 
 
 const styles = { 
@@ -18,6 +19,8 @@ const styles = {
 };
 
 function Dashboard () {  
+
+    const [user, setUser] = useState( false ) ;
 
     ValidSession('back') ;
     
@@ -39,10 +42,22 @@ function Dashboard () {
         { field: 'name',    headerName: 'Nombre' , width: 150  },
         { field: 'status',  headerName: 'Estado' , width: 100 }
     ];
+
+    const fetch = async () => {
+        const data = await GetItemJson('user') ;
+        console.log('====================================');
+        console.log('data' , data);
+        console.log('====================================');
+        setUser( data ) ;
+    }
+
+    useEffect( () => {
+        fetch() ;
+    },[])
     
-    return (
+    return ( user !== false ) ? (
         <>
-            <Title title={ 'Dr. Jean Soto ' } />
+            <Title title={ 'Dr. ' + user.nombres  } />
 
             <Grid container spacing={3}>
                 <Grid 
@@ -76,6 +91,8 @@ function Dashboard () {
         </>
         
     
+  ) : (
+      <SpinnerLoad/>
   );
 }
 

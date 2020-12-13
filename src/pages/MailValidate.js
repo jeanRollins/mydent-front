@@ -17,11 +17,8 @@ const MailValidate = props => {
     const [mailValidate , setMailValidate] =  useState( false ) ;
 
     const fetchApi = async () => {
-        console.log( 'codMail' , codMail ) ;
 
         const response = await CheckMail( codMail ) ;
-
-        console.log( 'response**' , response ) ;
         setMailValidate( response.action ) ;
     }
 

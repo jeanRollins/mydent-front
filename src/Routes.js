@@ -7,6 +7,10 @@ import Home from './pages/Home' ;
 import RegisterPrincipal from './pages/RegisterPrincipal' ;
 import RegisterLast from './pages/RegisterLast' ;
 import MailValidate from './pages/MailValidate' ;
+import Budget from './pages/Budget' ;
+
+
+
 
 
 
@@ -17,6 +21,8 @@ import Emails from './pages/Emails' ;
 import { Pacient } from './pages/Pacient';
 import { MedicalRecord } from './pages/MedicalRecord';
 import { Odontogram } from './pages/odontogram/Odontogram';
+import Schedule  from './pages/Schedule';
+
 
 
 
@@ -31,9 +37,7 @@ export default function Routes(props){
                     <Route path="/login"  exact component = { Home } /> 
                     <Route path="/registro"  exact component = { RegisterPrincipal } /> 
                     <Route path="/registroContraseña"  exact component = { RegisterLast } /> 
-                    <Route path="/mail_validate/:codMail"    children = { <MailValidate/> } />
-
-                    
+                    <Route path="/mail_validate/:codMail"    children = { <MailValidate/> } />                    
                     
                 </>
             ) )}
@@ -45,6 +49,10 @@ export default function Routes(props){
                     <Route path="/back/pacientes"     exact component = {Pacient} />
                     <Route path="/back/ficha_medica"  exact component = {MedicalRecord} />
                     <Route path="/back/odontograma"   exact component = {Odontogram} />
+                    <Route path="/back/presupuesto"   exact component = { Budget } /> 
+                    <Route path="/back/agenda"        exact component = { Schedule } /> 
+
+
                 </>
             ) )}
             

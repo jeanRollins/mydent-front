@@ -19,8 +19,8 @@ const Title = props => {
 
     return(
 
-        <Typography variant={ size } align={ align } style={ { color : '#595959' , margin : '50px 0px 30px 0px ' } } gutterBottom>
-            { props.title }
+        <Typography variant={ size } align={ align }  style={ {  margin : '50px 0px 30px 0px ' } } gutterBottom>
+            <span className="monserrat400" style={ { color : '#595959' } }  >  { props.title } </span>
         </Typography>
     )
 }

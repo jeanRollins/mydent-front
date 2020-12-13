@@ -7,7 +7,6 @@ import  {
     Input       ,
     InputAdornment
   }  from '@material-ui/core/';
-import MediaQuery from '../libs/MediaQuery';
 import ImagePrincipal from '../components/ImagePrincipal';
 import AccountCircle   from '@material-ui/icons/AccountCircle';
 import DraftsIcon from '@material-ui/icons/Drafts';
@@ -50,13 +49,6 @@ export default function RegisterPrincipal( props ) {
     const [ disabledButtonRegister, setDisabledButtonRegister ] = useState( false );
     const [ textButtonRegister, setTextButtonRegister ] = useState( 'REGISTRAR' );
 
-
-
-
-
-    const Mobile  =  MediaQuery('mobile') ;
-    const Tablet  =  MediaQuery('tablet') ;
-    const Desktop =  MediaQuery('desktop') ;
 
     const originalStateButton = ( ) => {
         setDisabledButtonRegister(false) ;
@@ -155,8 +147,6 @@ export default function RegisterPrincipal( props ) {
 
         props.history.push('/registroContraseña') ;
     }
-
-    const principalImage = "../../assets/62e5d8b0b4a22528a161d71b2dcaab6e - copia (copia).png";
 
     return (
         <>

@@ -10,7 +10,6 @@ export default function Table(props) {
         columns  = { props.columns} 
         pageSize = { 5 } 
         checkboxSelection = { props.selected }
-        
     />
     </div>
   );
