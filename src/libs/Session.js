@@ -30,7 +30,6 @@ export const ValidSession = async ( type = '' ) => {
         
           
     }
-    console.log( 'user********************' , user ) ;
 }  
 
 

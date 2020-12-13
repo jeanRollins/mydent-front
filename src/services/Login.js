@@ -13,3 +13,25 @@ export const ValidToken = async ( rut , token ) => {
     const response = await axios.post( url , data ) ;
     return response.data ;
 }
+
+export const ValidEmail = async email => {
+    const data = { email } ;
+    const url = RUTE_SERVICE + '/user/ValidateEmailExist' ;
+    const response = await axios.post( url , data ) ;
+    return response.data.isValid ;
+}
+
+export const ValidRut = async rut  =>  {
+    const data = { rut } ;
+    const url = RUTE_SERVICE + '/user/ValidateRutExist' ;
+    const response = await axios.post( url , data ) ;
+    return response.data.isValid ;
+}
+
+export const CheckMail = async codMail  =>  {
+    const data = { codMail } ;
+    const url = RUTE_SERVICE + '/user/CheckMail' ;
+    const response = await axios.post( url , data ) ;
+    return response.data ;
+}
+

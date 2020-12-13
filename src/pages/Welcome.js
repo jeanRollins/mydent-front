@@ -6,6 +6,7 @@ import  {
 import MediaQuery from '../libs/MediaQuery';
 import ImagePrincipal from '../components/ImagePrincipal';
 import { ValidSession } from '../libs/Session';
+import { ClearStorage } from '../libs/Storage';
 
 
 const styles = {
@@ -24,6 +25,9 @@ export default function Welcome(  ) {
     const Mobile  =  MediaQuery('mobile') ;
     const Tablet  =  MediaQuery('tablet') ;
     const Desktop =  MediaQuery('desktop') ;
+
+
+    ClearStorage() ;
 
     return (
         <>
