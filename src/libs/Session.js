@@ -1,5 +1,5 @@
 import { ValidToken } from "../services/Login";
-import { GetItemJson  } from "./Storage" ;
+import { GetItemJson , ClearStorage } from "./Storage" ;
 
 
 export const ValidSession = async ( type = '' ) => {
@@ -15,6 +15,7 @@ export const ValidSession = async ( type = '' ) => {
         
         if( !response.valid ){
             redirect('/') ;
+            //ClearStorage() ;
             return ;
         }
     }

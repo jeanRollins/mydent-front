@@ -5,7 +5,7 @@
     height: auto;
     display: inline-table;
     margin-left: 5px;
-    border: solid 1px black;
+    
 }
 
 .cuadro {
@@ -34,7 +34,7 @@
 }
 
 
-.derecha {
+.derecho {
     top: -27.5px !important;
     left: 44px !important;
     -webkit-transform: rotate(90deg);
@@ -74,7 +74,7 @@
     
 }
 
-.derecha:hover{
+.derecho:hover{
     background-color: #BFBFBF;
     
 }
@@ -100,21 +100,22 @@
     cursor: pointer;
 }
 
-.extraccion{
-    background-color: gray;
-}
 
-.carie{
-    background-color: green;
-}
-
-
-
-.extraccion{
+.extractSimple{
     background-color: black;
 }
 
+.extractComplex{
+    background-color: #666666;
+}
+.extractTemporal{
+    background-color: #4953e7;
+}
 
-.tapadura{
-    background-color: blue;
+.compositeTemporal{
+    background-color: #e4fd00;
+}
+
+.composite{
+    background-color: #1f9b25;
 }

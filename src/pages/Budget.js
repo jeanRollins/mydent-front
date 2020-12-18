@@ -10,7 +10,13 @@ import  {
     Select ,
     MenuItem ,
     TextField ,
-    Button  
+    Button  ,
+    Dialog  ,
+    Paper ,
+    DialogTitle ,
+    DialogContent ,
+    DialogContentText ,
+    DialogActions  
   }  from '@material-ui/core/';
 
 import {
@@ -18,30 +24,112 @@ import {
     GridApi
   } from "@material-ui/data-grid";
 
+  import Draggable from 'react-draggable';
+
 import SpinnerLoad from '../components/SpinnerLoad';
 import {  GetTratament , GetSpecialty } from '../services/Specialty';
 import { ValidSession } from '../libs/Session';
+import { GetItemJson } from '../libs/Storage';
+import { GetItemsBudget , DeleteItemBudget , AddItem } from '../services/Budget';
+
+import { format } from '../libs/Commons';
+
 
 const styles = {
     width : {
         width : '90%'
-    }
+    },
+    colorFail : {
+        color : 'red'
+    } 
+}
+
+function PaperComponent(props) {
+    return (
+      <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
+        <Paper {...props} />
+      </Draggable>
+    );
 }
 
 const Budget = props => {
 
     ValidSession('back') ;
 
+    const [ user , setUser ] = useState( false ) ;
+
     const [ specialties , setSpecialties ] = useState( false ) ;
     const [ specialty , setSpecialty ] = useState('') ;
 
     const [ trataments , setTrataments ] = useState([]) ;
-    const [ tratament , setTratament ] = useState([]) ;
+    
+    const [ tratament , setTratament ] = useState('') ;
+    const [ value , setValue ] = useState('') ;
+
+
+    const [ textTreatmentEmpty , setTextTreatmentEmpty ] = useState( false ) ;
+    const [ textValueEmpty , setTextValueEmpty ] = useState( false ) ;
+    const [ textFailAction , setTextFailAction ] = useState( false ) ;
+
+    const [ buttonText , setTextButton ] = useState( 'AGREGAR' ) ;
+    const [ buttonDisabled , setButtonDisabled ] = useState( false ) ;
+
+    const [ items , setItems ] = useState( [] ) ;
+
+    const [ rowsForTable , setRowsForTable ] = useState( [] ) ;
+
+    const [open, setOpen] = useState(false);
+    const [itemForDelete, setItemForDelete] = useState(0);
+
+    const deleteItem = async () => {
+         
+        const resposeDelete = await DeleteItemBudget( { id : itemForDelete } ) ;
+        console.log('resposeDelete' , resposeDelete  )
+        if( resposeDelete.action ) {
+            fetch() ;
+            fetchSpecialty()
+            fetchItems() ;
+            handleClose() ;
+        }
+        else{
+            handleClose() ;
+
+            console.log('problema al borrar')
+        }     
+    };
+
+    const emptyStates = () => {
+        setSpecialty('') ;
+        setValue('') ;
+        setTratament('') ;
+    }
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
 
     const fetch = async () => {
+        const us = await GetItemJson('user') ;
+        setUser( us ) ;
+    }
+
+    const fetchSpecialty = async () => {
         const specialtyFounded = await GetSpecialty() ;
-        console.log('specialtyFounded' , specialtyFounded) ;
         setSpecialties( specialtyFounded ) ;
+    }
+
+    const fetchItems = async () => {
+        const us    = await GetItemJson('user') ;
+        const items = await GetItemsBudget( { rut : us.rut} ) ;
+        const tratamentTable = await prepareTratament(  items ) ;
+
+        await setRowsForTable(  tratamentTable) ;
+        await setItems( items ) ;
     }
 
     const fetchTratament = async spec => {
@@ -50,30 +138,84 @@ const Budget = props => {
         setTrataments( tratamentsFounded ) ;
     }
 
-    const btn = () =>{
+    const prepareTratament =  dataTrataments => {
 
-        return (
-            <button>Hola</button>
-        );
+        let i = 0 ; 
+        const tratamentTable = dataTrataments.map( row => {
+            i++ ;
+            return { 
+                id : row.id_presupuesto ,
+                specialty : row.name ,
+                tratament : row.nombre ,
+                value : '$' + format( row.valor) ,
+                idPresupuesto : row.id_presupuesto 
+            }
+        }) ;
+        return tratamentTable ;
     }
 
-    const rows = [
-        { 
-            id: 1, 
-            specialty: 'Periodoncia',   
-            tratament: 'Revisión cuadrante',    
-            value: '$30.990' , 
-            actions :  ''
-        },
-        { id: 2, specialty: 'Periodoncia',  tratament: 'Control Gingivitis',    value: '$35.990' },
-        { id: 3, specialty: 'Periodoncia',  tratament: 'Control Limpieza',    value: '$10.990' },
-        { id: 4, specialty: 'General',      tratament: 'Limpieza base',    value: '$24.990' },
-        { id: 5, specialty: 'General',      tratament: 'Barniz fluor',    value: '$9.990' },
-        { id: 6, specialty: 'Odontopediatría', tratament: 'Extracción temporal',    value: '$15.990' },
-        { id: 7, specialty: 'Odontopediatría',   tratament: 'Tapadura temporal',    value: '$12.990' },
-        { id: 8, specialty: 'Cirujía',    tratament: 'Extracción simple',    value: '$27.990' },
-        { id: 9, specialty: 'Cirujía',      tratament: 'Extracción compleja',    value: '$42.990' },
-    ] ; 
+
+    const originalStateButton = ( ) => {
+        setButtonDisabled(false) ;
+        setTextButton('AGREGAR')
+    }
+
+    const activeStateButton = ( ) => {
+        setButtonDisabled(true) ;
+        setTextButton('AGREGANDO...')
+    }
+
+    const validate = () => {
+        
+        if( tratament == '' || !tratament ){
+            setTextTreatmentEmpty( true ) ;
+            return false ; 
+        }
+        setTextTreatmentEmpty( false ) ;
+
+
+        if( value == '' || !value ){
+            setTextValueEmpty( true ) ;
+            return false ; 
+        }
+        setTextValueEmpty( false ) ;
+
+        return true ;
+    }
+
+    const addItem = async () => {
+        activeStateButton() ;
+
+        const isValidate = await validate() ;
+
+        if( !isValidate ){
+            originalStateButton() ;
+            return false ;
+        }
+
+        const data = {
+            rut : user.rut ,
+            treatment : tratament ,
+            value  
+         } ; 
+
+        const response = await AddItem( data ) ;
+
+        if( !response.action ){
+            console.log( 'Add false :(' )
+            
+            return false 
+        }
+
+        console.log( 'Add true!' )
+        await fetch() ;
+        await fetchItems() ;
+
+        emptyStates()
+        originalStateButton()
+        console.log( 'data' , data )
+    }
+
 
     const columns = [
         { field: 'id',      headerName: 'N°'     , width: 100 },
@@ -86,18 +228,38 @@ const Budget = props => {
             width: 200 , 
             disableClickEventBubbling: true,
             renderCell: (params: CellParams) => {
-                const onClick = () => {
-                    console.log('click');
-                };
-          
+
+                const onClick  = () => {
+                    const api: GridApi = params.api;
+                    const fields = api
+                      .getAllColumns()
+                      .map((c) => c.field)
+                      .filter((c) => c !== "__check__" && !!c);
+                    const thisRow = {};
+            
+                    fields.forEach((f) => {
+                      thisRow[f] = params.getValue(f);
+                    });
+
+                    console.log('thisRow**',thisRow) ;
+
+                    setItemForDelete(thisRow.id) ;
+                    handleClickOpen() ;
+                }
+
                 return(
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<DeleteIcon />}
-                    >
-                    <span className="monserrat500"> Borrar </span>
-                  </Button>
+                    <>
+                       
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon = {<DeleteIcon />}
+                            onClick   = { e => onClick() } 
+                        >
+                            <span className="monserrat500"> Borrar </span>
+                        </Button>
+                    </>
+                  
                 )  ;
               }
         } ,
@@ -107,12 +269,39 @@ const Budget = props => {
     ];
 
     useEffect(() => {
-        
         fetch() ;
+        fetchSpecialty()
+        fetchItems() ;
     }, [])
 
     return ( specialties !== false ) ? (
         <>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                //PaperComponent={PaperComponent}
+                aria-labelledby="draggable-dialog-title"
+            >
+                <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+                  
+                    ¿Desea eliminar item?
+
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Se eliminará un item de los presupuestos asociados a tu cuenta, el cual no se podrá recuperar.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={handleClose} color="primary">
+                        Cancelar
+                    </Button>
+                    <Button onClick={deleteItem} color="primary">
+                        Si
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             <Title title = { "Valores Presupuesto" } />
 
 
@@ -125,8 +314,8 @@ const Budget = props => {
                         xs = { 12 }
                         sm = { 12 } 
                         md = { 3 } 
-                        lg = { 4 } 
-                        xl = { 4 } 
+                        lg = { 3 } 
+                        xl = { 3 } 
                     >
 
                         <FormControl  style={styles.width}>
@@ -191,7 +380,7 @@ const Budget = props => {
                     >
 
                         <FormControl style={styles.width}>
-                            <TextField type="number" id="standard-basic" label="Precio" />
+                            <TextField type="number" id="standard-basic" value={value} label="Precio" onChange={ e => setValue( e.target.value ) } />
                         </FormControl>
                     </Grid>
 
@@ -200,13 +389,18 @@ const Budget = props => {
                         xs = { 12 }
                         sm = { 12 } 
                         md = { 3 } 
-                        lg = { 2 } 
-                        xl = { 2 } 
+                        lg = { 3 } 
+                        xl = { 3 } 
                     >
 
-                        <Button variant="contained" color="primary">
+                        <Button variant="contained" disabled={buttonDisabled} color="primary" onClick={ e => addItem() }>
                             <span className="monserrat400">Agregar </span>
                         </Button>
+                        { (textTreatmentEmpty) && <p style={ styles.colorFail }> Tratamiento requerido</p>  }
+                        { (textValueEmpty) && <p style={ styles.colorFail }> Precio requerido</p>  }
+                        { (textFailAction) && <p style={ styles.colorFail }> No se puedo guardar, prueba más tarde </p>  }
+
+
                     </Grid>
 
 
@@ -234,7 +428,7 @@ const Budget = props => {
                         style={{ marginTop : '50px' }}
                     >
                         <TableResponsive 
-                            rows     = {rows}
+                            rows     = {rowsForTable}
                             columns  = {columns} 
                             selected = { false }
                         />

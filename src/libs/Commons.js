@@ -32,3 +32,11 @@ export const DigitVerificator =  digit => {
     
     return S ? S - 1 : 'k' ;
 }
+
+export const format = ( num ) => {
+    num = num + '' ;
+    num = num.replace(/\./g,'');
+    num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+    num = num.split('').reverse().join('').replace(/^[\.]/,'');
+    return num
+}

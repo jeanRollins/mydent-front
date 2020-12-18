@@ -16,6 +16,7 @@
     "react": "^16.13.1",
     "react-burger-menu": "^2.9.2",
     "react-dom": "^16.13.1",
+    "react-draggable": "^4.4.3",
     "react-mutation-observer": "^1.1.0",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",

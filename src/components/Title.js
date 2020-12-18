@@ -4,17 +4,17 @@ import { Typography  } from '@material-ui/core/';
 
 const Title = props => {
         
-    const type = ( props.type == undefined ) ? 'primary' : props.type ;
+    const type = ( props.type === undefined ) ? 'primary' : props.type ;
     let   size  = '' ; 
     let   align = '' ; 
 
     if( type == 'secondary' ){
         size   = 'h6' ;
-        align  = 'left' ;
+        align  = ( props.position === undefined ) ? 'left' : props.position ;
     }
     else{
         size   = 'h4' ;
-        align  = 'center' ;
+        align  = ( props.position === undefined ) ? 'center' : props.position ;
     }
 
     return(
