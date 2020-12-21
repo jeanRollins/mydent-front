@@ -56,8 +56,8 @@ function HeaderBack( props ) {
         url : '/back/presupuesto'
       },
       {
-        name : 'Ficha Médica' ,
-        url : '/back/ficha_medica'
+        name : 'Pacientes' ,
+        url : '/back/pacientes'
       },
       {
         name : 'Agenda' ,

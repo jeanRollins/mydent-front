@@ -19,9 +19,7 @@ export const ValidateRut  =  rutWithDigit  =>  {
     let tmp 	= rutWithDigit.split('-');
     let digv	= tmp[ 1 ] ; 
     let rut 	= tmp[ 0 ] ;
-  
     if ( digv == 'K' ) digv = 'k' ;
-
     return ( DigitVerificator( rut ) == digv );
 }
 
@@ -39,4 +37,14 @@ export const format = ( num ) => {
     num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
     num = num.split('').reverse().join('').replace(/^[\.]/,'');
     return num
+}
+
+export const rutFormater = rut => {
+    if (rut.length == 8) {
+        return rut.slice(0, -1) + '-' + rut.substr(7);
+    } else if (rut.length === 9) {
+        return rut.slice(0, -1) + '-' + rut.substr(8);
+    } else if (rut.length === 10) {
+        return rut.slice(0, -1) + '-' + rut.substr(9);
+    }
 }

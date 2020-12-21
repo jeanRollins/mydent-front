@@ -45,9 +45,6 @@ function Dashboard () {
 
     const fetch = async () => {
         const data = await GetItemJson('user') ;
-        console.log('====================================');
-        console.log('data' , data);
-        console.log('====================================');
         setUser( data ) ;
     }
 

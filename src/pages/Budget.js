@@ -16,7 +16,8 @@ import  {
     DialogTitle ,
     DialogContent ,
     DialogContentText ,
-    DialogActions  
+    DialogActions  ,
+    Snackbar
   }  from '@material-ui/core/';
 
 import {
@@ -24,8 +25,8 @@ import {
     GridApi
   } from "@material-ui/data-grid";
 
-  import Draggable from 'react-draggable';
-
+import Draggable from 'react-draggable';
+import MuiAlert from '@material-ui/lab/Alert';
 import SpinnerLoad from '../components/SpinnerLoad';
 import {  GetTratament , GetSpecialty } from '../services/Specialty';
 import { ValidSession } from '../libs/Session';
@@ -80,6 +81,12 @@ const Budget = props => {
 
     const [open, setOpen] = useState(false);
     const [itemForDelete, setItemForDelete] = useState(0);
+
+    const [tratamentsAll, setTratamentsAll] = useState([]); 
+
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
 
     const deleteItem = async () => {
          
@@ -139,7 +146,7 @@ const Budget = props => {
     }
 
     const prepareTratament =  dataTrataments => {
-
+        setTratamentsAll( dataTrataments ) ;
         let i = 0 ; 
         const tratamentTable = dataTrataments.map( row => {
             i++ ;
@@ -154,6 +161,19 @@ const Budget = props => {
         return tratamentTable ;
     }
 
+    
+
+    const [ openSnack, setOpenSnack] = useState(false);
+    const [ textMessageFail, setTextMessageFail ] = useState('') ;
+
+    const openSnackbar = () => {
+        setOpenSnack(true);
+    };
+    
+    const closeSnackbar = () => {
+        setOpenSnack(false);
+    };
+
 
     const originalStateButton = ( ) => {
         setButtonDisabled(false) ;
@@ -165,20 +185,42 @@ const Budget = props => {
         setTextButton('AGREGANDO...')
     }
 
+    const [openSnackError, setOpenSnackError] = useState(false);
+
+    const closeOpenSnackError  = () => setOpenSnackError( false ) ;
+    const openToastrSnackError = () => setOpenSnackError( true ) ;
+
+
     const validate = () => {
         
         if( tratament == '' || !tratament ){
-            setTextTreatmentEmpty( true ) ;
+            setTextMessageFail('Debe seleccionar un tratamiento') ;
+            openToastrSnackError() ;
             return false ; 
         }
         setTextTreatmentEmpty( false ) ;
 
 
         if( value == '' || !value ){
-            setTextValueEmpty( true ) ;
+            setTextMessageFail('Debe agregar un precio') ;
+            openToastrSnackError() ;
             return false ; 
         }
         setTextValueEmpty( false ) ;
+
+        let itemValid = true ;
+
+        tratamentsAll.forEach( row => {
+            if( row.id_tratamiento === tratament ){
+                itemValid = false ;
+            }
+        })
+
+        if( !itemValid ) {
+            setTextMessageFail('Item ya está asociado') ;
+            openToastrSnackError() ;
+            return false 
+        }
 
         return true ;
     }
@@ -187,7 +229,7 @@ const Budget = props => {
         activeStateButton() ;
 
         const isValidate = await validate() ;
-
+        
         if( !isValidate ){
             originalStateButton() ;
             return false ;
@@ -200,20 +242,21 @@ const Budget = props => {
          } ; 
 
         const response = await AddItem( data ) ;
+        console.log( 'response', response )
 
         if( !response.action ){
-            console.log( 'Add false :(' )
+            setTextMessageFail('Hubo un problema al agregar presupuesto, intente más tarde') ;
+            openToastrSnackError() ;
             
             return false 
         }
 
-        console.log( 'Add true!' )
+        openSnackbar() ;
         await fetch() ;
         await fetchItems() ;
 
-        emptyStates()
-        originalStateButton()
-        console.log( 'data' , data )
+        emptyStates() ;
+        originalStateButton();
     }
 
 
@@ -392,24 +435,14 @@ const Budget = props => {
                         lg = { 3 } 
                         xl = { 3 } 
                     >
-
                         <Button variant="contained" disabled={buttonDisabled} color="primary" onClick={ e => addItem() }>
                             <span className="monserrat400">Agregar </span>
                         </Button>
                         { (textTreatmentEmpty) && <p style={ styles.colorFail }> Tratamiento requerido</p>  }
                         { (textValueEmpty) && <p style={ styles.colorFail }> Precio requerido</p>  }
                         { (textFailAction) && <p style={ styles.colorFail }> No se puedo guardar, prueba más tarde </p>  }
-
-
                     </Grid>
-
-
                 </Grid>
-
-                
-
-                
-               
 
             </Container>
 
@@ -434,12 +467,19 @@ const Budget = props => {
                         />
 
                     </Grid>
-                    
-
                 </Grid>
-
             </Container>
+            <Snackbar open={ openSnack } autoHideDuration={6000} onClose={ e => closeSnackbar() }>
+                <Alert onClose={ closeSnackbar} severity="success">
+                    Se agrego item con éxito!
+                </Alert>
+            </Snackbar>
 
+            <Snackbar open={openSnackError} autoHideDuration={6000} onClose={ e =>  closeOpenSnackError() }>
+                <Alert onClose={closeOpenSnackError} severity="error">
+                <span className="monserrat400">  { textMessageFail } </span>
+                </Alert>
+            </Snackbar>
         </>
     ) : (
         <SpinnerLoad/>

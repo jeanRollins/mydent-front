@@ -4,7 +4,7 @@ import { DataGrid } from '@material-ui/data-grid';
 
 export default function Table(props) {
   return (
-    <div style={{ height: 400, width: '90%' }}>
+    <div style={{ height: 400, width: '89.5%',background:'#F9F9F9' }}>
       <DataGrid 
         rows     = { props.rows} 
         columns  = { props.columns} 
