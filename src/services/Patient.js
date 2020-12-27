@@ -28,5 +28,12 @@ export const GetPatient = async rut => {
     return response.data ;
 }
 
+export const SearchPatient = async ( rutUser, value,  field = '') => {   
+    const data = { rutUser, value,  field } ; 
+    const url = RUTE_SERVICE + '/api/patient/SearchPatients'  ;
+    const response = await axios.post( url , data ) ;
+    return response.data ;
+}
+
 
 

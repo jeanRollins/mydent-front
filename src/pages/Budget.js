@@ -55,7 +55,6 @@ function PaperComponent(props) {
 
 const Budget = props => {
 
-    ValidSession('back') ;
 
     const [ user , setUser ] = useState( false ) ;
 
@@ -79,10 +78,10 @@ const Budget = props => {
 
     const [ rowsForTable , setRowsForTable ] = useState( [] ) ;
 
-    const [open, setOpen] = useState(false);
-    const [itemForDelete, setItemForDelete] = useState(0);
+    const [ open, setOpen] = useState(false);
+    const [ itemForDelete, setItemForDelete] = useState(0);
 
-    const [tratamentsAll, setTratamentsAll] = useState([]); 
+    const [ tratamentsAll, setTratamentsAll] = useState([]); 
 
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -160,9 +159,7 @@ const Budget = props => {
         }) ;
         return tratamentTable ;
     }
-
     
-
     const [ openSnack, setOpenSnack] = useState(false);
     const [ textMessageFail, setTextMessageFail ] = useState('') ;
 
@@ -315,6 +312,7 @@ const Budget = props => {
         fetch() ;
         fetchSpecialty()
         fetchItems() ;
+        ValidSession('back') ;
     }, [])
 
     return ( specialties !== false ) ? (

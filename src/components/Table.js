@@ -14,3 +14,15 @@ export default function Table(props) {
     </div>
   );
 }
+
+export const GetRowCurrent =  params => {
+
+    const fields =  params.api.getAllColumns().map((c) => c.field).filter((c) => c !== "__check__" && !!c);
+    const thisRow = {};
+
+    fields.forEach((f) => {
+      thisRow[f] = params.getValue(f);
+    });
+
+    return thisRow
+} ;

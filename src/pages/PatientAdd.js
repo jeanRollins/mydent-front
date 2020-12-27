@@ -217,10 +217,11 @@ const PatientAdd = (props) => {
         originalStateButton() ;
     }
 
-    ValidSession('back') ;
     
     useEffect( () => {
         fetch() ;
+        ValidSession('back') ;
+
     },[])
     const titlePerson = () => (
         <>  

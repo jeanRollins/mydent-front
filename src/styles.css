@@ -1,3 +1,5 @@
+@import '~@fullcalendar/daygrid/main.css' ;
+
 *{
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
