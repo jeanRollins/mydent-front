@@ -35,5 +35,38 @@ export const SearchPatient = async ( rutUser, value,  field = '') => {
     return response.data ;
 }
 
+export const EditPatient = async patientUpdate => {
+    const url = RUTE_SERVICE + '/api/patient/UpdatePatientFile';
+    const response = await axios.post(url, patientUpdate);
+    return response.data;
+}
+
+
+export const AddHistory = async history => {
+    const url = RUTE_SERVICE + '/api/history/AddHistoryPatient';
+    const response = await axios.post(url, history);
+    return response.data;
+}
+
+export const getHistoryPatient = async ruts => {
+    const url = RUTE_SERVICE + '/api/history/GetPatientHistory';
+    const response = await axios.post(url, ruts);
+    return response.data
+}
+
+export const uploadStatePatient = async (rutUser , rutPatient) => {
+    const data = { rutUser , rutPatient } ;
+    console.log('service',data);
+    const url = RUTE_SERVICE + '/api/patient/UpdateStatePatient';
+    const response = await axios.post(url, data );
+    return response.data
+}
+
+
+export const searhPatient = async search => {
+    const url = RUTE_SERVICE + '/api/patient/SearchPatients';
+    const response = await axios.post(url, search);
+    return response.data
+}
 
 

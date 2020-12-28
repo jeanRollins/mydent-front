@@ -1,35 +1,26 @@
-import React, { useEffect , useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Title from '../components/Title';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableResponsive from '../components/Table';
+import TableResponsive , {GetRowCurrent} from '../components/Table';
 
 import {
     Grid,
     Button,
-    Input,
     InputAdornment,
-    TableContainer,
-    Table,
-    TableHead,
-    TableRow,
     Container,
-    TablePagination,
-    Paper,
-
+    TextField,
 } from '@material-ui/core/';
+
 import SpinnerLoad from '../components/SpinnerLoad';
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link , withRouter} from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { ValidSession } from '../libs/Session';
 import { GetItemJson } from '../libs/Storage';
 import { getUserAndPacient } from '../services/Users';
-import {
-    CellParams,
-    GridApi
-  } from "@material-ui/data-grid";
+
+import { searhPatient } from '../services/Patient';
+import { rutFormater } from '../libs/Commons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,150 +33,183 @@ const useStyles = makeStyles((theme) => ({
     margin: {
         margin: theme.spacing(1),
     },
-    link : {
-        textDecoration: 'none' ,
-        color  : 'blue'
+    link: {
+        textDecoration: 'none',
+        color: 'blue'
     }
 }));
+
+
+
 
 const Pacient = props => {
 
     const fetch = async () => {
-        const us = await GetItemJson('user') ;
-        const patientsFounded = await  getUserAndPacient( us.rut ) ;
-
-        setUser( us ) ; 
-        setPatient( patientsFounded.data.patients ) ;
+        const us = await GetItemJson('user');
+        const patientsFounded = await getUserAndPacient(us.rut);
+        const data = prepareData( patientsFounded.data.patients ) ;  
+        
+        setUser(us);
+        setPatient(data);
     }
 
-    const [user, setUser] = useState( false );
+    const [user, setUser] = useState(false);
     const [patiens, setPatient] = useState(false);
-
     const classes = useStyles();
- 
+
     const columns = [
-        { field: 'rut',                 headerName: 'Rut'     , width: 150  } ,
-        { field: 'nombres',             headerName: 'Nombre' , width: 250  } ,
-        { field: 'apellido_paterno',    headerName: 'Apellido Paterno'   , width: 200  } ,
-        { field: 'name_prevision',      headerName: 'Previsión'   , width: 200  } ,
-        { 
-            field: 'rut',     
-            headerName: 'Ver Ficha' , 
-            width: 200 ,
-            disableClickEventBubbling: true ,
-            renderCell: ( params: CellParams ) => {
-                const onClick  = () => {
-                    const api: GridApi = params.api;
-                    const fields = api
-                      .getAllColumns()
-                      .map((c) => c.field)
-                      .filter((c) => c !== "__check__" && !!c);
-                    const thisRow = {} ;
-                    fields.forEach((f) => {
-                      thisRow[f] = params.getValue(f);
-                    });
-    
-                    props.history.push('/back/ficha_medica/' + thisRow.rut )
+        { field: 'id', headerName: 'N°', width: 50 } ,
+        { field: 'rutFormat', headerName: 'Rut', width: 150 },
+        { field: 'nombres', headerName: 'Nombre', width: 250 },
+        { field: 'apellido_paterno', headerName: 'Apellido Paterno', width: 200 },
+        { field: 'name_prevision', headerName: 'Previsión', width: 200 },
+        {
+            field: 'rut',
+            headerName: 'Ver Ficha',
+            width: 200,
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+                const onClick = () => {
+                    const thisRow = GetRowCurrent(params) ;
+                    props.history.push('/back/ficha_medica/' + thisRow.rut)
                 }
-    
-                return(
+
+                return (
                     <>
                         <Button
                             variant="contained"
                             color="primary"
-                            startIcon = {<AssignmentOutlinedIcon />}
-                            onClick   = { e => onClick() } 
+                            startIcon={<AssignmentOutlinedIcon />}
+                            onClick={e => onClick()}
                         >
                             <span className="monserrat500"> Ver ficha </span>
-                        </Button>    
-                        
-                    </>
-                  
-                )  ;
-            }
-        } 
-    ];
-    
+                        </Button>
 
-    useEffect( () => {
-        fetch() ;
-        ValidSession('back') ;
-    },[])
-    return  ( patiens !== false && user !== false) ? (
+                    </>
+
+                );
+            }
+        }
+    ];
+ 
+    const prepareData = patients => {
+        let i = 1 ;
+        const data = patients.map( row => {
+            return {
+                id : i++ ,
+                rut : row.rut ,
+                rutFormat : rutFormater( row.rut ) ,
+                nombres : row.nombres ,
+                apellido_paterno : row.apellido_paterno ,
+                name_prevision : row.name_prevision 
+            }
+        } )
+
+        return data ;
+    }
+
+    const handleSearch = async value => {
+        const rutUser = user.rut;
+        const field = '';
+
+        const searhObject = {
+            rutUser,
+            value,
+            field
+        }
+ 
+        const patientsFounded = await searhPatient(searhObject);
+        const data = prepareData( patientsFounded.data ) ;
+        setPatient( data ) ;
+    }
+
+
+    useEffect(() => {
+
+
+        fetch();
+        ValidSession('back');
+    }, [])
+    return (patiens !== false && user !== false) ? (
         <>
             <Title title="Pacientes" />
 
             <Container fixed>
                 <Grid container spacing={2}>
-                    <Grid 
+                    <Grid
                         item
-                        xs = { 12 }
-                        sm = { 12 }    
-                        md = { 7 }    
-                        lg = { 7 }    
-                        xl = { 7 }    
+                        xs={12}
+                        sm={12}
+                        md={7}
+                        lg={7}
+                        xl={7}
                     >
-                         <Link to = {'/back/agregar_paciente'} className={ classes.link} >
-                            Agregar Paciente    
+                        <Link to={'/back/agregar_paciente'} className={classes.link} >
+                            Agregar Paciente
                         </Link>
-                        
+
                     </Grid>
 
-                    <Grid 
+                    <Grid
                         item
-                        xs = { 12 }
-                        sm = { 12 }    
-                        md = { 5 }    
-                        lg = { 5 }    
-                        xl = { 5 }    
+                        xs={12}
+                        sm={12}
+                        md={3}
+                        lg={3}
+                        xl={3}
                     >
-                       <Input
+
+                        <TextField
                             fullWidth
+                            onChange={ e => handleSearch( e.target.value ) }
                             placeholder="Ej: Luis Tapia"
-                            id="input-with-icon-adornment"
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            }
+                            id="standard-full-width"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
+
                     </Grid>
-                    
+
                 </Grid>
 
-              
+
             </Container>
 
 
             <Container fixed>
-                
+
 
                 <Grid container spacing={2}>
-                    <Grid 
+                    <Grid
                         item
-                        xs = { 12 }
-                        sm = { 12 }    
-                        md = { 12 }    
-                        lg = { 12 }    
-                        xl = { 12 }    
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        xl={12}
                     >
-                        <TableResponsive 
-                            rows     = { patiens }
-                            columns  = { columns   }
-                            selected = { false  }
+                        <TableResponsive
+                            rows={patiens}
+                            columns={columns}
+                            selected={false}
                         />
-                        
+
                     </Grid>
 
-                   
-                    
+
+
                 </Grid>
-              
+
             </Container>
         </>
     ) : (
-        <SpinnerLoad/>
+        <SpinnerLoad />
     )
 }
 
-export default withRouter( Pacient ) ;
+export default withRouter(Pacient);

@@ -1,32 +1,52 @@
-import React , {useEffect , useState} from 'react'
+import React,
+{
+    useEffect,
+    useState
+} from 'react'
 import { ValidSession } from '../libs/Session';
 import Title from '../components/Title';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, withRouter } from 'react-router-dom';
 import TableResponsive from '../components/Table';
 import SpinnerLoad from '../components/SpinnerLoad';
 import { GetItemJson } from '../libs/Storage';
-import { GetPatient } from '../services/Patient';
+import {
+    AddHistory,
+    getHistoryPatient,
+    GetPatient,
+    uploadStatePatient
+} from '../services/Patient';
 
-import { Container, Typography, Button, Grid, Modal, Backdrop, Fade } from '@material-ui/core' ;
-import { rutFormater } from '../libs/Commons';
+import {
+    Container,
+    Button,
+    Grid,
+    Dialog,
+    DialogContentText,
+    DialogActions,
+    DialogTitle,
+    TextField,
+    DialogContent,
+    Snackbar,
+    Typography
+} from '@material-ui/core';
+import {
+    rutFormater,
+    DateFormat
+} from '../libs/Commons';
+import { IconButton } from '@material-ui/core';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import MuiAlert from '@material-ui/lab/Alert';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 
-const rows = [
-    { id: 1, name: 'Leanne Graham', date: '12/11/2020', history: 'se realizo una tapadura' },
-    { id: 2, name: 'Ervin Howell', date: '10/10/2020', history: 'se realizo una tapadura' },
-    { id: 3, name: 'Samantha', date: '11/09/2019', history: 'extraccion' },
-    { id: 4, name: 'Patricia Lebsack', date: '11/02/2019', history: 'extraccion' },
-    { id: 5, name: 'Chelsey Dietrich', date: '11/01/2019', history: 'extraccion' },
-    { id: 6, name: 'Leopoldo_Corkery', date: '01/01/2019', history: 'extraccion' },
-    
-];
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 100,},
-    { field: 'name', headerName: 'Nombre Odontologo', width: 250,},
-    { field: 'date', headerName: 'Fecha Atencion', width: 200 },
-    { field: 'history', headerName: 'Historial', width: 250 },
+    { field: 'id', headerName: 'N°', width: 50, },
+    { field: 'rut_paciente', headerName: 'Rut Paciente', width: 150 },
+    { field: 'diente', headerName: 'Diente Tratado', width: 150 },
+    { field: 'fecha_ingreso', headerName: 'Fecha', width: 250 },
+    { field: 'historial', headerName: 'Historial', width: 400 },
 ];
 
 
@@ -43,62 +63,201 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         marginBottom: 20
     },
-    paddingCenter : {
-        padding : '0px 15px 0px 15px ', 
+    paddingCenter: {
+        padding: '0px 15px 0px 15px ',
 
     },
-    documentos:{
+    documentos: {
         background: '#6400B3',
         '&:hover': {
             background: "#560299",
-         },
+        },
     },
     modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
-        paper: {
-        width: '400' ,
+    paper: {
+        width: '400',
         backgroundColor: theme.palette.background.paper,
         //border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+    },
+    colorButton: {
+        color: "#239B88",
     }
 }));
 
 
 
-export const MedicalRecord = () => {
+const MedicalRecord = (props) => {
 
-    const { rutPatient } = useParams() ;
-    const [ user , setUser ] = useState( false) ;
-    const [ patient , setPatient ] = useState( false) ;
-    const [open, setOpen] = React.useState(false);
+    const { rutPatient } = useParams();
+    const [user, setUser] = useState(false);
+    const [patient, setPatient] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [openHistory, setOpenHistory] = useState(false)
+
+    const [textMessageFail, setTextMessageFail] = useState('');
+
+    const [openSnack, setOpenSnack] = useState(false);
+
+    const closeOpenSnackError = () => setOpenSnackError(false);
+    const openToastrSnackError = () => setOpenSnackError(true);
+    const [openSnackError, setOpenSnackError] = useState(false);
+
+    const [openDelete, setOpenDelete] = useState(false)
+
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
+    const [historyPatient, setHistoryPatient] = useState({
+        rutUser: "",
+        rutPatient: "",
+        tooth: "",
+        history: ""
+    })
+
+    const [historyData, setHistoryData] = useState(false)
 
     const handleOpen = () => {
         setOpen(true);
     };
 
+    const handleClickOpenHistory = () => {
+        setOpenHistory(true);
+    }
+
+    const handleClickCloseHistory = () => {
+        setOpenHistory(false);
+    };
+
+
     const handleClose = () => {
         setOpen(false);
     };
 
+    const handleClickSubmit = async () => {
 
-    const fetch = async ( props ) => {
-        const us = await GetItemJson('user') ;
-        const patientFounded = await GetPatient( rutPatient ) ;
-        console.log( 'patientFounded' , patientFounded.data ) ;
-        setPatient( patientFounded.data ) ;
-        setUser(us) ;
-    } 
+        if (historyPatient.tooth === '' || !historyPatient.tooth) {
+            setTextMessageFail('Debe colocar la pieza tratada');
+            openToastrSnackError();
+            return false
+        }
+
+        if (historyPatient.history === '' || !historyPatient.history) {
+            setTextMessageFail('Debe colocar un historial');
+            openToastrSnackError();
+            return false
+        }
 
 
-    useEffect( () => {
-        fetch()
-    },[])
+        const historyPatientUpload = {
+
+            rutUser: user.rut,
+            rutPatient: patient.rut,
+            tooth: historyPatient.tooth,
+            history: historyPatient.history
+
+        }
+
+
+
+        const response = await AddHistory(historyPatientUpload);
+
+        if (response.action) {
+            openSnackbar()
+            handleClickCloseHistory()
+            fetch()
+        }
+    }
+
+    const handleOnChangeHistory = e => setHistoryPatient({ ...historyPatient, [e.target.name]: e.target.value })
+
+    const openSnackbar = () => {
+        setOpenSnack(true);
+    };
+
+    const closeSnackbar = () => {
+        setOpenSnack(false);
+    };
+
+    const handleClickOpenDelete = () => {
+        setOpenDelete(true)
+    }
+
+    const handleCloseDelete = () => {
+        setOpenDelete(false)
+    }
+
+
+    const fetch = async () => {
+
+        const us = await GetItemJson('user');
+        const patientFounded = await GetPatient(rutPatient);
+      
+        setPatient(patientFounded.data);
+        setUser(us);
+
+        const ruts = {
+            rutUser: us.rut,
+            rutPatient: patientFounded.data.rut
+        }
+
+        const historyPatientData = await getHistoryPatient(ruts)
+        setHistoryPatient(historyPatientData.data)
+        const historyFilter = await prepareTableHistory(historyPatientData.data) ;
+
+        setHistoryData(historyFilter) ;
+    }
+
+
+    const prepareTableHistory = historyPatientData => {
+
+        console.log('historyPatientData' , historyPatientData) ;
+  
+        const historyTable = historyPatientData.map( (row, index) =>  {
+            return {
+                id: index + 1,
+                rut_paciente: rutFormater(row.rut_paciente),
+                diente: row.diente,
+                historial: row.historial,
+               fecha_ingreso: DateFormat(row.fecha)
+            }
+        });
+
+        return historyTable;
+
+
+    }
+
+    const deleteMedicalRecordPatient = async e => {
+
+        const response = await uploadStatePatient( user.rut, patient.rut );
+
+        console.log(response);
+
+        if( !response.action ){
+            setTextMessageFail('Hubo un problema al eliminar al paciente, intente más tarde.');
+            openToastrSnackError();
+            return false ;
+        }
+        
+        props.history.push( '/back/pacientes' ) ;   
+        
+    }
+
+
+
+    useEffect(() => {
+        fetch() ;
+        ValidSession('back') ;
+    }, [])
     const classes = useStyles();
-    return (patient !== false && user !== false ) ? (
+    return (patient !== false && historyData !== false) ? (
         <>
 
             <Title title="Ficha Medica" />
@@ -108,59 +267,77 @@ export const MedicalRecord = () => {
                 <Grid container spacing={1} style={{ marginTop: '50px' }} alignItems="center" >
                     <Grid
                         item
-                        xs = { 12 }
-                        sm = { 12 }
-                        md = { 2 }
-                        lg = { 2 }
-                        xl = { 2 }
+                        xs={12}
+                        sm={12}
+                        md={2}
+                        lg={2}
+                        xl={2}
                     >
-                        Rut : { rutFormater( patient.rut ) }
+                        Rut : {rutFormater(patient.rut)}
 
                     </Grid>
 
                     <Grid
                         item
-                        xs = { 12 }
-                        sm = { 12 }
-                        md = { 4 }
-                        lg = { 4 }
-                        xl = { 4 }
+                        xs={12}
+                        sm={12}
+                        md={4}
+                        lg={4}
+                        xl={4}
                     >
-                        Nombre : {  patient.nombres  + ' ' + patient.apellido_paterno + ' ' + patient.apellido_materno }
+                        Nombre : {patient.nombres + ' ' + patient.apellido_paterno + ' ' + patient.apellido_materno}
 
                     </Grid>
 
                     <Grid
                         item
-                        xs = { 12 }
-                        sm = { 12 }
-                        md = { 3 }
-                        lg = { 3 }
-                        xl = { 3 }
+                        xs={12}
+                        sm={12}
+                        md={2}
+                        lg={2}
+                        xl={2}
                     >
-                        Previsión  : {  patient.name_prevision }
+                        Previsión  : {patient.name_prevision}
 
                     </Grid>
 
-                    
+
                     <Grid
                         item
-                        xs = { 12 }
-                        sm = { 12 }
-                        md = { 3 }
-                        lg = { 3 }
-                        xl = { 3 }
+                        xs={6}
+                        sm={6}
+                        md={1}
+                        lg={1}
+                        xl={1}
                     >
 
 
-                        <Button variant="outlined" onClick={handleOpen} color="primary">
-                            Ver Detalles
-                        </Button>
+                        <IconButton onClick={handleClickOpenHistory} >
+                            <PostAddIcon fontSize="large" />
+                        </IconButton>
+
+
+                    </Grid>
+
+
+                    <Grid
+                        item
+                        xs={6}
+                        sm={6}
+                        md={1}
+                        lg={1}
+                        xl={1}
+                    >
+
+                        <IconButton onClick={handleOpen}>
+                            <DescriptionIcon fontSize="large" />
+                        </IconButton>
+
 
                     </Grid>
 
                 </Grid>
-                
+
 
                 <Grid container spacing={1} style={{ marginTop: '50px' }} alignItems="center" >
 
@@ -168,14 +345,14 @@ export const MedicalRecord = () => {
                         item
                         xs={6}
                         sm={6}
-                        md={3}
+                        md={2}
                         lg={2}
-                        xl={3}
+                        xl={2}
                     >
-                        <Link  style={{textDecoration: 'none'}} to={`/back/gestion_documentos/${patient.rut}`}>
+                        <Link style={{ textDecoration: 'none' }} to={`/back/gestion_documentos/${patient.rut}`}>
                             <Button
                                 fullWidth
-                                className={classes.margin,classes.documentos}
+                                className={classes.margin, classes.documentos}
                                 variant="contained"
                                 color="primary">Documentos</Button>
                         </Link>
@@ -190,8 +367,8 @@ export const MedicalRecord = () => {
                         lg={2}
                         xl={2}>
 
-                        <Link style={{textDecoration: 'none'}} to={`/back/odontograma/?rut=123456789`}>
-                            <Button fullWidth  className={classes.margin}
+                        <Link style={{ textDecoration: 'none' }} to={`/back/odontograma/?rut=123456789`}>
+                            <Button fullWidth className={classes.margin}
                                 variant="contained" color="primary">Odontograma</Button>
                         </Link>
 
@@ -205,8 +382,8 @@ export const MedicalRecord = () => {
                         md={2}
                         lg={2}
                         xl={2}>
-                        <Link style={{textDecoration: 'none'}} to={`/back/gestion_dicom/?rut=123456789`}>
-                            <Button fullWidth className={classes.margin} style={{background:'#9F9F9F',color:'white'}}
+                        <Link style={{ textDecoration: 'none' }} to={`/back/gestion_dicom/?rut=123456789`}>
+                            <Button fullWidth className={classes.margin} style={{ background: '#9F9F9F', color: 'white' }}
                                 variant="contained" color="default" >Archivos DICOM</Button>
                         </Link>
                     </Grid>
@@ -219,8 +396,11 @@ export const MedicalRecord = () => {
                         lg={2}
                         xl={2}>
 
-                        <Button fullWidth className={classes.margin} style={{background: '#D0A200',color:'white'}}
-                            variant="contained" >Editar Ficha</Button>
+                        <Link style={{ textDecoration: 'none' }} to={`/back/editar_ficha/${patient.rut}`} >
+
+                            <Button fullWidth className={classes.margin} style={{ background: '#D0A200', color: 'white' }}
+                                variant="contained" >Editar Ficha</Button>
+                        </Link>
                     </Grid>
 
                     <Grid
@@ -230,10 +410,10 @@ export const MedicalRecord = () => {
                         md={2}
                         lg={2}
                         xl={2}
-                        >
+                    >
 
-                        <Button fullWidth className={classes.margin}
-                            variant="contained" style={{background: '#B30000', color:'white'}} >Eliminar Ficha</Button>
+                        <Button fullWidth onClick={handleClickOpenDelete} className={classes.margin}
+                            variant="contained" style={{ background: '#B30000', color: 'white' }} >Eliminar Ficha</Button>
                     </Grid>
 
                 </Grid>
@@ -252,16 +432,16 @@ export const MedicalRecord = () => {
                         md={12}
                         lg={12}
                         xl={12}
-                        
 
-                        style={{ marginTop: '50px',marginBottom: '50px' }}
+
+                        style={{ marginTop: '50px', marginBottom: '50px' }}
                     >
                         <TableResponsive
-                            
-                            rows={rows}
+
+                            rows={historyData}
                             columns={columns}
                             selected={false}
-                            
+
                         />
 
                     </Grid>
@@ -269,37 +449,158 @@ export const MedicalRecord = () => {
 
             </Container>
 
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                <div className={classes.paper}>
-                    <h2 id="transition-modal-title" align="center"> {  patient.nombres  + ' ' + patient.apellido_paterno + ' ' + patient.apellido_materno }  </h2>
-                    <p id="">Rut : { rutFormater( patient.rut )} </p>
-                    <p id="">Email : {  patient.correo} </p>
-                    <p id="">Estatura : { patient.estatura } </p>
-                    <p id="">Fecha Nacimiento : { patient.estatura } </p>
-                    <p id="">Grupo Sanguineo : { patient.grupo_sanguineo } </p>
-                    <p id="">Medicamentos : { patient.grupo_sanguineo } </p>
-                    <p id="">Previsión : { patient.name_prevision } </p>
-                    <p id="">Observaciones :  </p>
-                    <p id=""> { patient.observaciones } </p>
 
-                </div>
-                </Fade>
-            </Modal>
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                    {patient.nombres + ' ' + patient.apellido_paterno + ' ' + patient.apellido_materno}
+                </DialogTitle>
+                <DialogContent dividers>
+                    <Typography gutterBottom>
+                        Rut : {rutFormater(patient.rut)}
+                    </Typography>
+                    <Typography>
+                        Email : {patient.correo}
+                    </Typography>
+                    <Typography>
+                        Estatura : {patient.estatura}
+                    </Typography>
+                    <Typography>
+                        Fecha Nacimiento :  {DateFormat(patient.fecha_nacimiento)}
+                    </Typography>
+                    <Typography>
+                        Grupo Sanguineo : {patient.grupo_sanguineo}
+                    </Typography>
+                    <Typography>
+                        Medicamentos : {patient.medicamentos}
+                    </Typography>
+                    <Typography>
+                        Previsión : {patient.name_prevision}
+                    </Typography>
+                    <Typography>
+                        Observaciones : {patient.observaciones}
+                    </Typography>
+                </DialogContent>
+            </Dialog>
+
+
+
+
+
+
+            <Dialog disableEscapeKeyDown disableBackdropClick open={openHistory} onClose={handleClickCloseHistory} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Historial Ficha medica</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Debe escribir un historial de atencion colocando lo realizado en la revision dental.
+          </DialogContentText>
+                    <TextField
+                        defaultValue={rutFormater(user.rut)}
+                        autoFocus
+                        margin="dense"
+                        id="rutUser"
+                        label="Rut Odontologo"
+                        type="text"
+                        fullWidth
+                        name="rutUser"
+                        disabled
+                        onChange={handleOnChangeHistory}
+                    />
+                    <TextField
+                        defaultValue={rutFormater(patient.rut)}
+                        autoFocus
+                        margin="dense"
+                        id="rutPatient"
+                        label="Rut Paciente"
+                        type="text"
+                        fullWidth
+                        disabled
+                        name="rutPatient"
+                        onChange={handleOnChangeHistory}
+
+
+                    />
+
+                    <TextField
+
+                        autoFocus
+                        margin="dense"
+                        id="numberDent"
+                        label="N° Diente"
+                        type="number"
+                        fullWidth
+                        InputProps={{ inputProps: { min: 1, max: 32 } }}
+                        name="tooth"
+                        onChange={handleOnChangeHistory}
+
+                    />
+
+                    <TextField
+                        margin="dense"
+                        id="history"
+                        label="Historial"
+                        type="text"
+                        multiline
+                        rows={4}
+                        fullWidth
+                        name="history"
+                        onChange={handleOnChangeHistory}
+
+                    />
+
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClickCloseHistory} color="secondary">
+                        Cancelar
+          </Button>
+                    <Button onClick={handleClickSubmit} color="primary">
+                        Agregar
+          </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Snackbar open={openSnack} autoHideDuration={6000} onClose={e => closeSnackbar()}>
+                <Alert onClose={closeSnackbar} severity="success">
+                    Se agrego paciente con éxito!
+                </Alert>
+            </Snackbar>
+
+            <Snackbar open={openSnackError} autoHideDuration={6000} onClose={e => closeOpenSnackError()}>
+                <Alert onClose={closeOpenSnackError} severity="error">
+                    <span className="monserrat400">  {textMessageFail} </span>
+                </Alert>
+            </Snackbar>
+
+
+            <Dialog
+                disableEscapeKeyDown
+                disableBackdropClick
+                open={openDelete}
+                onClose={handleCloseDelete}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle
+                    id="alert-dialog-title">{"Eliminacion de ficha medica"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Esta seguro que desea Eliminar esta ficha medica?
+          </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDelete} color="secondary">
+                        Cancelar
+                    </Button>
+                    <Button onClick={deleteMedicalRecordPatient} color="primary" autoFocus>
+                        Eliminar Ficha
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </>
     ) : (
-        <SpinnerLoad/>
+        <SpinnerLoad />
     )
 }
+
+export default withRouter( MedicalRecord ) ;   

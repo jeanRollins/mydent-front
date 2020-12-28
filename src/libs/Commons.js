@@ -48,3 +48,11 @@ export const rutFormater = rut => {
         return rut.slice(0, -1) + '-' + rut.substr(9);
     }
 }
+
+export const DateFormat = date => {
+    let day = date.substr(8, 2);
+    let month = date.substr(5, 2);
+    let year = date.substr(0, 4);
+    let time = date.substr(11, 5);
+    return (day + '-' + month + '-' + year + ' ' + time)
+}

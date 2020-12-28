@@ -3,6 +3,7 @@ import "./index.css";
 import { slide as Menu }     from  "react-burger-menu" ;
 import { ClearStorage }      from  '../../libs/Storage' ;
 import { withRouter, Link }  from  'react-router-dom' ;
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 
 
 const styles = {
@@ -13,33 +14,50 @@ const styles = {
   buttonMenu : {
     float: 'right',
     margin : '10px 0px 0px 0px '
+  },
+  icon : {
+    display: 'inline' ,
+    position: 'fixed' ,
+    margin: '0px 0px 0px 10px'
   }
-
 } ;
 
-const props = ( props ) => {
+const MenuResponsive = props => {
   
   const closeSession = ( e ) => {
     e.preventDefault() ;
     ClearStorage() ;
-    //props.history.push('/') ;
     window.location.pathname = "/"  ;
-
-  }
-
+  };
 
   return (
     <div style={ styles.buttonMenu }> 
-      <Menu {...props} right >
+      <Menu  right >
+         <Link   
+            to    = { '/back/dashboard' }
+            style = { styles.link }
+          >
+          <span className="monserrat700"> Dr. { props.name } </span>   
+          <div style={ styles.icon }>
+           <AccountCircleRoundedIcon/>
+          
+          </div> 
+        </Link>
+ 
+        <br/>  
         { props.menu.map( ( row , index ) => (
-          <div key = { index }>      
-            <Link   
-              to        = { row.url }
-              style     = { styles.link }
-            >
-              { row.name }
-            </Link>
-            <hr/>
+          <div key = { index }>
+            { ( row.type !== 'select' ) && (
+              <>      
+                <Link   
+                  to    = { row.url }
+                  style = { styles.link }
+                >
+                  { row.name }
+                </Link>
+                <hr/>
+              </>
+            )}
           </div>
         ))}
 
@@ -50,4 +68,4 @@ const props = ( props ) => {
 };
 
 
-export default withRouter( props )  ;
+export default withRouter( MenuResponsive )  ;

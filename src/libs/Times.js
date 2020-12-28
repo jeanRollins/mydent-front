@@ -1,6 +1,5 @@
 import { GetTimes } from '../services/Times' ;
 
-
 export const GetTimesData = async ( rutUser , date )  => {
     let times = {} ;
     const datesFormat = await GetFormatDate( date ) ; 

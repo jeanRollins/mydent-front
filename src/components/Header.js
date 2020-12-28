@@ -1,7 +1,5 @@
-import React, { useState , useEffect } from 'react';
-import MenuResponsive from './MenuResponsive/index';
-import {Grid , Container , Box} from '@material-ui/core/';
-import MediaQuery from '../libs/MediaQuery';
+import React  from 'react';
+import {Grid , Container } from '@material-ui/core/';
 import { withRouter, Link } from 'react-router-dom';
 
 const styles = {
@@ -43,11 +41,7 @@ const styles = {
 } ;
 
 function Header (props) {  
-   
-    const Mobile  =  MediaQuery('mobile') ;
-    const Tablet  =  MediaQuery('tablet') ;
-    const Desktop =  MediaQuery('desktop') ;
-
+  
     return (
       <>
 

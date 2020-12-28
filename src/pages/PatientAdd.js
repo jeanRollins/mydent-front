@@ -35,7 +35,7 @@ const styles = {
         position: 'absolute'
     }
 }
-const PatientAdd = (props) => {
+const PatientAdd = ({history}) => {
 
     const [patient, setPatient] = useState({
         rutUser : "" ,
@@ -95,6 +95,7 @@ const PatientAdd = (props) => {
         setPatient({...patient , rutUser : us.rut} ) ;
         setUser(us) ;
         setForecats(forecastsData) ;
+        console.log(history.replace());
     } ;
 
 
@@ -215,13 +216,13 @@ const PatientAdd = (props) => {
         openSnackbar() ;
         resetForm() ;
         originalStateButton() ;
+        history.replace('/back/pacientes');
     }
 
+    ValidSession('back') ;
     
     useEffect( () => {
         fetch() ;
-        ValidSession('back') ;
-
     },[])
     const titlePerson = () => (
         <>  
@@ -284,12 +285,12 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >
                         <TextField
-                            id=""
+                            
                             label="Rut"
                             type="text"
                             autoComplete="current-password"
                             style= { styles.inputWidth }
-                            defaultValue = { patient.rut } 
+                            
                             value = { patient.rut } 
                             onChange={ e =>  setPatient({...patient , rut : e.target.value } ) }
                         />                 
@@ -309,12 +310,11 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >        
                         <TextField
-                            id=""
+                            
                             label="Nombres"
                             type="text"
                             autoComplete="current-password"
                             style= { styles.inputWidth } 
-                            defaultValue = { patient.name } 
                             value = { patient.name } 
                             onChange={ e => setPatient({...patient , name : e.target.value } )}
                         />                 
@@ -329,12 +329,12 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >        
                         <TextField
-                            id=""
+                            
                             label="Apellido Materno"
                             type="text"
                             autoComplete="current-password"
                             style= { styles.inputWidth }
-                            defaultValue = { patient.lasnameMother } 
+                            
                             value = { patient.lasnameMother } 
                             onChange = { e =>  setPatient({...patient , lasnameMother : e.target.value } ) } 
                         />                 
@@ -349,12 +349,12 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >        
                         <TextField
-                            id=""
+                            
                             label="Apellido Paterno"
                             type="text"
                             autoComplete="current-password"
                             style= { styles.inputWidth } 
-                            defaultValue = { patient.lasnameFather } 
+                            
                             value = { patient.lasnameFather } 
                             onChange={ e =>  setPatient({...patient , lasnameFather : e.target.value } ) }
                         />                 
@@ -374,12 +374,12 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >        
                         <TextField
-                            id=""
+                            
                             label="Email"
                             type="email"
                             autoComplete="current-password"
                             style= { styles.inputWidth } 
-                            defaultValue = { patient.email } 
+                   
                             value = { patient.email } 
                             onChange={e =>  setPatient({...patient , email : e.target.value } )}
                         />                 
@@ -471,12 +471,12 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >        
                         <TextField
-                            id=""
+                            
                             label="Grupo sanguíneo"
                             type="text"
                             autoComplete="current-password"
                             style= { styles.inputWidth } 
-                            defaultValue = { patient.groupBlood } 
+                           
                             value = { patient.groupBlood } 
                             onChange={ e =>  setPatient({...patient , groupBlood : e.target.value } ) }
                         />                 
@@ -491,12 +491,12 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >        
                         <TextField
-                            id=""
+                            
                             label="Medicamentos"
                             type="text"
                             autoComplete="current-password"
                             style= { styles.inputWidth }
-                            defaultValue = { patient.medicaments } 
+                            
                             value = { patient.medicaments } 
                             onChange={  e =>  setPatient({...patient , medicaments : e.target.value } ) } 
                         />                 
@@ -511,14 +511,13 @@ const PatientAdd = (props) => {
                         xl = { 4 } 
                     >        
                         <TextField
-                            id=""
+                            
                             label="Estatura"
                             type="text"
                             autoComplete="current-password"
                             style= { styles.inputWidth } 
-                            defaultValue = { patient.height } 
+                           
                             value = { patient.height } 
-                            medicaments
                             onChange={e =>  setPatient({...patient , height : e.target.value } )}
                         />                 
                     </Grid>
@@ -542,7 +541,7 @@ const PatientAdd = (props) => {
                             label="Observaciones"
                             multiline
                             rows={4}
-                            defaultValue={ patient.observations }
+                            
                             value={ patient.observations }
                             style= { styles.inputWidth } 
                             //value = { patient.observations } 

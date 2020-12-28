@@ -7,24 +7,21 @@ import Home from './pages/Home' ;
 import RegisterPrincipal from './pages/RegisterPrincipal' ;
 import RegisterLast from './pages/RegisterLast' ;
 import MailValidate from './pages/MailValidate' ;
-import Budget from './pages/Budget' ;
-
-
-
-
 
 
 //Pages AppBack
 import RecoveryPass from './pages/RecoveryPass' ;
+import Budget from './pages/Budget' ;
 import Dashboard from './pages/Dashboard' ;
 import Emails from './pages/Emails' ;
 import  Pacient  from './pages/Pacient';
-import { MedicalRecord } from './pages/MedicalRecord';
+import MedicalRecord  from './pages/MedicalRecord';
 import { Odontogram } from './pages/odontogram/Odontogram';
 import Schedule  from './pages/Schedule';
 import  ManagerDocuments  from './pages/ManagerDocuments';
 import  PatientAdd  from './pages/PatientAdd';
 import { Dicom } from './pages/Dicom';
+import EditRecords from './pages/EditRecords';
 
 
 export default function Routes(props){
@@ -48,6 +45,7 @@ export default function Routes(props){
                     <Route path="/back/correos"       exact component = { Emails } /> 
                     <Route path="/back/pacientes"     exact component = {Pacient} />
                     <Route path="/back/ficha_medica/:rutPatient"  exact children = {<MedicalRecord/>} />
+                    <Route path="/back/editar_ficha/:rutPatient" exact children={<EditRecords />} />
                     <Route path="/back/odontograma"   exact component = {Odontogram} />
                     <Route path="/back/presupuesto"   exact component = { Budget } /> 
                     <Route path="/back/agenda"        exact component = { Schedule } /> 
@@ -57,7 +55,6 @@ export default function Routes(props){
 
                 </>
             ) )}
-            
         </>
     )
 }
