@@ -38,8 +38,7 @@ export default function Routes(props){
                     <Route path="/login"  exact component = { Home } /> 
                     <Route path="/registro"  exact component = { RegisterPrincipal } /> 
                     <Route path="/registroContraseña"  exact component = { RegisterLast } /> 
-                    <Route path="/mail_validate/:codMail"    children = { <MailValidate/> } />                    
-                    <Route path = "*"  component = { NotFound }  />
+                    <Route path="/mail_validate/:codMail"    children = { <MailValidate/> } />     
                 </>
             ) )}
             {( props.route == 'back' && (
@@ -59,9 +58,9 @@ export default function Routes(props){
                     <Route path="/back/presupuestos/:rutPatient"    exact children={<BudgetsPatients />}  />
                     <Route path="/back/budget/:idBudget"    exact children={<BudgetShow />}  />
                     <Route path="/back/correos_pacientes/:idcampana"   exact children = {<EmailsPatients/>} />
-                    <Route path = "*"  component = { NotFound }  />
                 </>
-            ) )}
+            ))}
+            
         </>
     )
 }
