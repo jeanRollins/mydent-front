@@ -125,6 +125,8 @@ const EmailsPatients = ({history}) => {
         if (response.message === 'ok') {
             history.push('/back/correos');
         }
+
+       
     }
 
 

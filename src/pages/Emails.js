@@ -234,15 +234,17 @@ function Emails({history}) {
 
     const response = await addCampaign(campaignUpload);
 
+    console.log( 'response' , response);
     if (!response) {
       setTextMessageFail('Ha ocurrido un error intente mas tarde...');
       openToastrSnackError();
+      return false ;
     }
 
-    openSnackbar()
-    closeSnackbar()
-    handleResetForm()
-
+    openSnackbar();
+    closeSnackbar();
+    handleResetForm() ;
+    fetch() ;
   }
 
 
