@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { GetItemJson } from '../libs/Storage';
 import { getUserAndPacient } from '../services/Users';
 import TableResponsive from '../components/Table';
-import {  withRouter, useParams } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
 import {
     Grid,
     Container,
     Button,
-    Snackbar
+    Snackbar,
 } from '@material-ui/core/';
 import SpinnerLoad from '../components/SpinnerLoad';
 import Title from '../components/Title';
@@ -22,7 +22,7 @@ const styles = {
     },
 }
 
-const EmailsPatients = () => {
+const EmailsPatients = ({history}) => {
 
     const { idcampana } = useParams('idcampana');
 
@@ -42,14 +42,26 @@ const EmailsPatients = () => {
     const [openSnack, setOpenSnack] = useState(false);
     const [textMessageFail, setTextMessageFail] = useState('');
 
+    const [ buttonText , setTextButton ] = useState( 'ENVíAR' ) ;
+    const [ buttonDisabled , setButtonDisabled ] = useState( false ) ;
+
     const closeOpenSnackError = () => setOpenSnackError(false);
     const openToastrSnackError = () => setOpenSnackError(true);
 
 
     const closeSnackbar = () => {
         setOpenSnack(false);
-      };
-    
+    };
+
+    const originalStateButton = ( ) => {
+        setButtonDisabled(false) ;
+        setTextButton('ENVíAR')
+    }
+
+    const activeStateButton = ( ) => {
+        setButtonDisabled(true) ;
+        setTextButton('ENVIANDO...')
+    }
 
 
     const fetch = async () => {
@@ -60,7 +72,6 @@ const EmailsPatients = () => {
 
         setPatientEmail(patients.data.patients)
         setEmailTable(responseEmail);
-
     }
 
     useEffect(() => {
@@ -95,23 +106,25 @@ const EmailsPatients = () => {
     }
 
     const sendEmail = async () => {
-
-       
-
-        if (emailSelected.length === 0) {
-            setTextMessageFail('Debe selecionar minimo 1 correo');
-            openToastrSnackError();
-            return false
-        }
-
+        activeStateButton() ;
         const prepareEmail = {
             idCampaign: idcampana,
             items: emailSelected.rowIds
         }
 
-        const response = await addItemCampaign(prepareEmail);
-        console.log(response);
+        console.log('prepareEmail.items' , prepareEmail.items)
 
+        if ( prepareEmail.items === undefined || !prepareEmail ) {
+            setTextMessageFail('Debe selecionar minimo 1 correo');
+            openToastrSnackError();
+            originalStateButton() ;
+            return false
+        }
+
+       const response = await addItemCampaign(prepareEmail);
+        if (response.message === 'ok') {
+            history.push('/back/correos');
+        }
     }
 
 
@@ -139,15 +152,18 @@ const EmailsPatients = () => {
                     </Grid>
                 </Grid>
 
+                <br/>
+
                 <Grid>
-                    <Grid>
+                    <Grid  >
                         <Button
                             color="primary"
                             variant="contained"
                             onClick={sendEmail}
+                            disabled = { buttonDisabled }
                             startIcon={<SendIcon />}
                         >
-                            Enviar correo
+                            { buttonText }
                      </Button>
                     </Grid>
                 </Grid>

@@ -25,6 +25,8 @@ import EditRecords from './pages/EditRecords';
 import BudgetsPatients from './pages/BudgetsPatients';
 import BudgetShow from './pages/BudgetShow';
 import EmailsPatients from './pages/EmailsPatients';
+import NotFound from './pages/NotFound';
+
 
 export default function Routes(props){
 
@@ -37,7 +39,7 @@ export default function Routes(props){
                     <Route path="/registro"  exact component = { RegisterPrincipal } /> 
                     <Route path="/registroContraseña"  exact component = { RegisterLast } /> 
                     <Route path="/mail_validate/:codMail"    children = { <MailValidate/> } />                    
-                    
+                    <Route path = "*"  component = { NotFound }  />
                 </>
             ) )}
             {( props.route == 'back' && (
@@ -57,6 +59,7 @@ export default function Routes(props){
                     <Route path="/back/presupuestos/:rutPatient"    exact children={<BudgetsPatients />}  />
                     <Route path="/back/budget/:idBudget"    exact children={<BudgetShow />}  />
                     <Route path="/back/correos_pacientes/:idcampana"   exact children = {<EmailsPatients/>} />
+                    <Route path = "*"  component = { NotFound }  />
                 </>
             ) )}
         </>

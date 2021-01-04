@@ -9,6 +9,12 @@ export const GetTimesData = async ( rutUser , date )  => {
     return times ;
 }
 
+const helperNumber = number => {
+    if( number < 10 ){
+        number =  "0" + "" + number
+    }
+    return number ;
+}
 
 
 const GetFormatDate = async date => {
@@ -16,8 +22,11 @@ const GetFormatDate = async date => {
     const data = await nextDays( date , 5 ) ;
     const firstDay = data[0] ;
     const lastDay  = data[ data.length - 1] ;
-    const firstDate = firstDay.getFullYear() + ( ( firstDay.getMonth() + 1 ) + "" ) + firstDay.getDate() ;
-    const lastDate  = lastDay.getFullYear()  + ( ( lastDay.getMonth()  + 1 ) + "" ) + lastDay.getDate() ;
+    const firstDate = firstDay.getFullYear() + helperNumber( ( firstDay.getMonth() + 1 ) ) + helperNumber( firstDay.getDate() ) ;
+    const lastDate  = lastDay.getFullYear()  + helperNumber( ( firstDay.getMonth() + 1 ) ) + helperNumber( lastDay.getDate() ) ;
+    console.log('lastDate' , lastDate ) ;
+    console.log('firstDate' , firstDate ) ;
+
     return { firstDate, lastDate } ;
 }
 
@@ -82,8 +91,7 @@ export const GetNextsDaysNames = async dayToReady  => {
     const quantityDays = 5 ;
     const days = await nextDays( dayToReady,  quantityDays ) ;
     let nameDays = days.map( day => {
-        console.log('day.getMonth() - 1*****************' , day.getMonth())
-        const date = day.getDate() + '/' +   ( day.getMonth() + 1 ).toString() + '/' + day.getFullYear()
+        const date =  helperNumber( day.getDate() ) + '/' +  helperNumber( day.getMonth() + 1 ) + '/' + day.getFullYear()
         return { 
             name : weekdays( day.getDay() ) ,
             date ,
@@ -98,6 +106,7 @@ export const GetHours = async ( rutUser , dayToReady ) => {
     const times = await createTimes() ;
     const days  = await nextDays( dayToReady , quantityDays ) ;
     const timesFounded = await GetTimesData( rutUser , dayToReady ) ;
+    console.log( 'timesFounded' , timesFounded)
     let i = 1 ;
     
     data = times.map( ( date , indexHours ) => {
@@ -111,7 +120,7 @@ export const GetHours = async ( rutUser , dayToReady ) => {
             const nameMonth  =  monthOfTheYear( month ) ;  
 
             const dateFormat =  ( dayOfMonth + "" ) + '/' + ( month + 1 ) + '/' + year  ;
-            const id = ( indexHours + 1 ) + weekdaysCode( day.getDay() ) + monthOfTheYearCode( month ) + dayOfMonth + "" + ( month + 1 ) + year ;
+            const id = ( indexHours + 1 ) + weekdaysCode( day.getDay() ) +  monthOfTheYearCode( month ) + helperNumber( dayOfMonth ) + "" +  helperNumber( month + 1 ) + year ;
 
             const assigned      = ( timesFounded[id] !== undefined ) ;
             const timeData      = ( timesFounded[id] !== undefined ) ? timesFounded[id] : { estado_nombre : 'Disponible' } ; 
