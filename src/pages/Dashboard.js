@@ -98,7 +98,7 @@ function Dashboard (props) {
         { field: 'rutPatient',  headerName: 'Rut'  , width: 130 } ,
         { field: 'stateName',  headerName: 'Estado'  , width: 120 } ,
         { 
-            field: 'rutPatient',  
+            field: 'action',  
             headerName: 'Ficha' , 
             width: 90 , 
             disableClickEventBubbling: true,

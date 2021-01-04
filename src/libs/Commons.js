@@ -1,11 +1,15 @@
-export const Months =  ( monthsIndex = 0 )  => {
+export const Months =  ( monthsIndex = 0 , monthName = false )  => {
+    console.log( 'monthsIndex' , monthsIndex)
     const month = [ "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre" ] ;
+    if( monthName )  return month[ monthsIndex ] ;
     return ( monthsIndex == 0 ) ? month : month[ monthsIndex ] ;
 } 
 
 export const DayCurrent = (  ) => {
     const date = new Date();
-    return  date.getDate() + " de " + Months( date.getMonth() ) + " de " + date.getFullYear() ;
+    const dateString = date.getDate() + " de " + Months( date.getMonth(), true ) + " de " + date.getFullYear()
+    
+    return  dateString ;
 
 }
 
@@ -55,4 +59,16 @@ export const DateFormat = date => {
     let year = date.substr(0, 4);
     let time = date.substr(11, 5);
     return (day + '-' + month + '-' + year + ' ' + time)
+}
+
+export const TypeFormatEmail = type => {
+
+    if (type === 1) {
+        return "Promoción"
+    }
+
+    if (type === 2) {
+        return "Informativo"
+    }
+
 }

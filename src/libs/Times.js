@@ -82,11 +82,11 @@ export const GetNextsDaysNames = async dayToReady  => {
     const quantityDays = 5 ;
     const days = await nextDays( dayToReady,  quantityDays ) ;
     let nameDays = days.map( day => {
-        const date = day.getDate() + '/' +   ( day.getMonth() - 1 ).toString() + '/' + day.getFullYear()
+        console.log('day.getMonth() - 1*****************' , day.getMonth())
+        const date = day.getDate() + '/' +   ( day.getMonth() + 1 ).toString() + '/' + day.getFullYear()
         return { 
             name : weekdays( day.getDay() ) ,
             date ,
-
         }
     }); 
     return nameDays ;
@@ -105,13 +105,13 @@ export const GetHours = async ( rutUser , dayToReady ) => {
         days.forEach( ( day , index ) => {
             
             const dayOfMonth =  day.getDate() ;
-            const month      =  day.getMonth() ; 
+            const month      =  day.getMonth()  ; 
             const year       =  day.getFullYear() ;
             const nameDay    =  weekdays( day.getDay() ) ;  
             const nameMonth  =  monthOfTheYear( month ) ;  
 
             const dateFormat =  ( dayOfMonth + "" ) + '/' + ( month + 1 ) + '/' + year  ;
-            const id = ( indexHours + 1 ) + weekdaysCode( day.getDay() ) + monthOfTheYearCode( month ) + dayOfMonth + "" + month + year ;
+            const id = ( indexHours + 1 ) + weekdaysCode( day.getDay() ) + monthOfTheYearCode( month ) + dayOfMonth + "" + ( month + 1 ) + year ;
 
             const assigned      = ( timesFounded[id] !== undefined ) ;
             const timeData      = ( timesFounded[id] !== undefined ) ? timesFounded[id] : { estado_nombre : 'Disponible' } ; 

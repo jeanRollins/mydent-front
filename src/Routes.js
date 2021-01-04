@@ -16,13 +16,15 @@ import Dashboard from './pages/Dashboard' ;
 import Emails from './pages/Emails' ;
 import  Pacient  from './pages/Pacient';
 import MedicalRecord  from './pages/MedicalRecord';
-import { Odontogram } from './pages/odontogram/Odontogram';
+import Odontogram  from './pages/odontogram/Odontogram';
 import Schedule  from './pages/Schedule';
 import  ManagerDocuments  from './pages/ManagerDocuments';
 import  PatientAdd  from './pages/PatientAdd';
 import { Dicom } from './pages/Dicom';
 import EditRecords from './pages/EditRecords';
-
+import BudgetsPatients from './pages/BudgetsPatients';
+import BudgetShow from './pages/BudgetShow';
+import EmailsPatients from './pages/EmailsPatients';
 
 export default function Routes(props){
 
@@ -46,13 +48,15 @@ export default function Routes(props){
                     <Route path="/back/pacientes"     exact component = {Pacient} />
                     <Route path="/back/ficha_medica/:rutPatient"  exact children = {<MedicalRecord/>} />
                     <Route path="/back/editar_ficha/:rutPatient" exact children={<EditRecords />} />
-                    <Route path="/back/odontograma"   exact component = {Odontogram} />
+                    <Route path="/back/odontograma/:rutPatient"   exact  children={<Odontogram />}  />
                     <Route path="/back/presupuesto"   exact component = { Budget } /> 
                     <Route path="/back/agenda"        exact component = { Schedule } /> 
                     <Route path="/back/agregar_paciente"        exact component = { PatientAdd } /> 
                     <Route path="/back/gestion_documentos/:rutPatient"  exact children = { <ManagerDocuments/> } /> 
                     <Route path="/back/gestion_dicom"   exact component = {Dicom} />
-
+                    <Route path="/back/presupuestos/:rutPatient"    exact children={<BudgetsPatients />}  />
+                    <Route path="/back/budget/:idBudget"    exact children={<BudgetShow />}  />
+                    <Route path="/back/correos_pacientes/:idcampana"   exact children = {<EmailsPatients/>} />
                 </>
             ) )}
         </>

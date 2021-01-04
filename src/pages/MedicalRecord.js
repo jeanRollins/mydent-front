@@ -367,9 +367,9 @@ const MedicalRecord = (props) => {
                         lg={2}
                         xl={2}>
 
-                        <Link style={{ textDecoration: 'none' }} to={`/back/odontograma/?rut=123456789`}>
+                        <Link style={{ textDecoration: 'none' }} to={ `/back/presupuestos/` + rutPatient }>
                             <Button fullWidth className={classes.margin}
-                                variant="contained" color="primary">Odontograma</Button>
+                                variant="contained" color="primary">Presupuestos</Button>
                         </Link>
 
                     </Grid>

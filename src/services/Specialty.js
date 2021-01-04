@@ -12,3 +12,11 @@ export const GetTratament = async specialty => {
     const response = await axios.get( url ) ;
     return response.data ;
 }
+
+
+export const ItemsTratamentByUser = async rutUser => {
+    const data = { rutUser } ; 
+    const url = RUTE_SERVICE + `/api/budget/GetItemsTratamientsByUser` ;
+    const response = await axios.post( url , data ) ;
+    return response.data ;
+}
