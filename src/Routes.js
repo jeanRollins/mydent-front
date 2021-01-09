@@ -54,7 +54,7 @@ export default function Routes(props){
                     <Route path="/back/agenda"        exact component = { Schedule } /> 
                     <Route path="/back/agregar_paciente"        exact component = { PatientAdd } /> 
                     <Route path="/back/gestion_documentos/:rutPatient"  exact children = { <ManagerDocuments/> } /> 
-                    <Route path="/back/gestion_dicom"   exact component = {Dicom} />
+                    <Route path="/back/gestion_dicom/:rutPatient"   exact children = {<Dicom/>} />
                     <Route path="/back/presupuestos/:rutPatient"    exact children={<BudgetsPatients />}  />
                     <Route path="/back/budget/:idBudget"    exact children={<BudgetShow />}  />
                     <Route path="/back/correos_pacientes/:idcampana"   exact children = {<EmailsPatients/>} />

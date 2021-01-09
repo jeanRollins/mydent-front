@@ -156,7 +156,6 @@ const MedicalRecord = (props) => {
 
 
         const historyPatientUpload = {
-
             rutUser: user.rut,
             rutPatient: patient.rut,
             tooth: historyPatient.tooth,
@@ -382,8 +381,8 @@ const MedicalRecord = (props) => {
                         md={2}
                         lg={2}
                         xl={2}>
-                        <Link style={{ textDecoration: 'none' }} to={`/back/gestion_dicom/?rut=123456789`}>
-                            <Button fullWidth className={classes.margin} style={{ background: '#9F9F9F', color: 'white' }}
+                        <Link style={{ textDecoration: 'none' }} to={ `/back/gestion_dicom/${ patient.rut }`}>
+                            <Button fullWidth className={ classes.margin } style={{ background: '#9F9F9F', color: 'white' }}
                                 variant="contained" color="default" >Archivos DICOM</Button>
                         </Link>
                     </Grid>
@@ -492,7 +491,7 @@ const MedicalRecord = (props) => {
                 <DialogContent>
                     <DialogContentText>
                         Debe escribir un historial de atencion colocando lo realizado en la revision dental.
-          </DialogContentText>
+                    </DialogContentText>
                     <TextField
                         defaultValue={rutFormater(user.rut)}
                         autoFocus

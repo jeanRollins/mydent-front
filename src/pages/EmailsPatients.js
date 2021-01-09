@@ -105,6 +105,8 @@ const EmailsPatients = ({history}) => {
 
     }
 
+    
+
     const sendEmail = async () => {
         activeStateButton() ;
         const prepareEmail = {
