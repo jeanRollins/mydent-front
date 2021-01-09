@@ -293,6 +293,7 @@ const Budget = props => {
                         <Button
                             variant="contained"
                             color="secondary"
+                            className=""
                             startIcon = {<DeleteIcon />}
                             onClick   = { e => onClick() } 
                         >

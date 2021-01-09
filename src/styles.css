@@ -24,3 +24,16 @@
     width: 100% !important;
     margin: 0px;
 }
+
+.btnPrimary{
+    background-color: #47a5a5 !important;
+}
+
+.btnSecondary{
+    background-color: #4384af !important;
+}
+
+.btnTertiary{
+    background-color: #cbe3f3 !important;
+    color: rgb(128, 128, 128) !important;
+}

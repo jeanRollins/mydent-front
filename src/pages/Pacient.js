@@ -79,6 +79,7 @@ const Pacient = props => {
                         <Button
                             variant="contained"
                             color="primary"
+                            className="btnPrimary"
                             startIcon={<AssignmentOutlinedIcon />}
                             onClick={e => onClick()}
                         >

@@ -351,7 +351,7 @@ const MedicalRecord = (props) => {
                         <Link style={{ textDecoration: 'none' }} to={`/back/gestion_documentos/${patient.rut}`}>
                             <Button
                                 fullWidth
-                                className={classes.margin, classes.documentos}
+                                className = "btnSecondary"
                                 variant="contained"
                                 color="primary">Documentos</Button>
                         </Link>
@@ -367,7 +367,7 @@ const MedicalRecord = (props) => {
                         xl={2}>
 
                         <Link style={{ textDecoration: 'none' }} to={ `/back/presupuestos/` + rutPatient }>
-                            <Button fullWidth className={classes.margin}
+                            <Button fullWidth className="btnPrimary"
                                 variant="contained" color="primary">Presupuestos</Button>
                         </Link>
 
@@ -397,7 +397,7 @@ const MedicalRecord = (props) => {
 
                         <Link style={{ textDecoration: 'none' }} to={`/back/editar_ficha/${patient.rut}`} >
 
-                            <Button fullWidth className={classes.margin} style={{ background: '#D0A200', color: 'white' }}
+                            <Button fullWidth className="btnTertiary" style={{ background: '#D0A200', color: 'white' }}
                                 variant="contained" >Editar Ficha</Button>
                         </Link>
                     </Grid>
