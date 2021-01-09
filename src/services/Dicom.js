@@ -1,7 +1,7 @@
 import  axios          from  'axios';
 import { RUTE_SERVICE } from '../constants';
 
-const RUTE_FILE = 'http://files.alohaweb.tk' ;
+const RUTE_FILE = 'https://files.alohaweb.tk' ;
 
 export const AddFile = async data  =>  {
     const url = RUTE_FILE + '/?action=AddDicom' ;
