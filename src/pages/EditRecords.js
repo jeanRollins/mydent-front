@@ -583,6 +583,7 @@ const EditRecords = ({ history }) => {
                         <Button
                             variant="contained"
                             color="secondary"
+                            className="btnPrimary"
                             style={styles.inputWidth}
                             onClick={e => addPatient()}
                             disabled={buttonDisabled}

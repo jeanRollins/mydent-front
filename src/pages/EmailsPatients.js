@@ -27,10 +27,10 @@ const EmailsPatients = ({history}) => {
     const { idcampana } = useParams('idcampana');
 
     const columns = [
-        { field: 'numero', headerName: 'N°', width: 50 },
-        { field: 'id', headerName: 'rut', width: 150 },
+        { field: 'numero', headerName: 'N°', width: 100 },
+        { field: 'id', headerName: 'Rut', width: 200 },
         { field: 'nombre', headerName: 'Paciente', width: 200 },
-        { field: 'correo', headerName: 'correo', width: 250 },
+        { field: 'correo', headerName: 'Email', width: 250 },
     ];
 
     const [patientEmail, setPatientEmail] = useState(false);
@@ -114,8 +114,6 @@ const EmailsPatients = ({history}) => {
             items: emailSelected.rowIds
         }
 
-        console.log('prepareEmail.items' , prepareEmail.items)
-
         if ( prepareEmail.items === undefined || !prepareEmail ) {
             setTextMessageFail('Debe selecionar minimo 1 correo');
             openToastrSnackError();
@@ -136,7 +134,7 @@ const EmailsPatients = ({history}) => {
     return (emailTable !== false && user !== false) ? (
         <>
 
-            <Title title="Envio de correos" />
+            <Title title="Envío de correos" />
             <Container fixed>
 
                 <Grid>
@@ -165,6 +163,7 @@ const EmailsPatients = ({history}) => {
                             variant="contained"
                             onClick={sendEmail}
                             disabled = { buttonDisabled }
+                            className="btnPrimary"
                             startIcon={<SendIcon />}
                         >
                             { buttonText }

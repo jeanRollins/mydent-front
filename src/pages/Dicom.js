@@ -178,13 +178,10 @@ export const Dicom = () => {
                 return false ;
             }    
 
-            console.log( 'responseDelete' , responseDelete )
-
             const formFile = new FormData() ;
             formFile.append('rute' , url ) ;
 
             const respDelete = await DeleteFile( formFile ) ;
-            console.log( 'respDelete' , respDelete )
 
             setDescription('') ;
             setTitle('') ;
@@ -203,7 +200,6 @@ export const Dicom = () => {
     }
 
     const gotoDicomFile = params => {
-        console.log( 'params' , params ) ;
         const rute = RUTE_SERVICE_DICOM + '/?token=' + params.row.token ;
         window.location.href = rute ;
 

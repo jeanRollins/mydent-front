@@ -1,7 +1,7 @@
 import { addDocument, cloudinary, DeleteDocument, getDocumentByUserAndPacient } from '../services/Documents';
 import React, { useEffect, useState, useRef } from 'react';
 import Title from '../components/Title';
-import { Container, FormControl, TextField, Select, InputLabel, Button, TextareaAutosize, Grid, MenuItem, Snackbar } from '@material-ui/core'
+import { Container, FormControl, TextField, Select, InputLabel, Button, TextareaAutosize, IconButton ,Grid, MenuItem, Snackbar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import TableResponsive from '../components/Table';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -126,15 +126,9 @@ const ManagerDocuments = (props) => {
     
                 return(
                     <>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon = {<InsertDriveFileIcon />}
-                            onClick   = { e => onClick() } 
-                        >
-                            <span className="monserrat500"> Documento </span>
-                        </Button>    
-                        
+                        <Link href="#" onClick = { e => onClick() }>
+                            Ir a documento
+                        </Link>
                     </>
                   
                 )  ;
@@ -146,7 +140,7 @@ const ManagerDocuments = (props) => {
             headerName: 'Acciones' , 
             width: 200 , 
             disableClickEventBubbling: true ,
-            renderCell: ( params: CellParams ) => {
+            renderCell: params => {
     
                 const onClick  = async () => {
                     const api: GridApi = params.api;
@@ -167,15 +161,9 @@ const ManagerDocuments = (props) => {
     
                 return(
                     <>
-                       
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            startIcon = {<DeleteIcon />}
-                            onClick   = { e => onClick() } 
-                        >
-                            <span className="monserrat500"> Borrar </span>
-                        </Button>
+                        <IconButton aria-label="delete" onClick   = { e => onClick() } >
+                            <DeleteIcon fontSize="large" />
+                        </IconButton>
                     </>
                   
                 )  ;
@@ -419,7 +407,7 @@ const ManagerDocuments = (props) => {
                                     ref={refFile}
                                 />
                                 <label htmlFor="contained-button-file">
-                                    <Button variant="contained" color="primary" component="span">
+                                    <Button variant="contained" className="btnSecondary"color="primary" component="span">
                                         Adjunte Archivo
                                     </Button>
                                 </label>
@@ -441,6 +429,7 @@ const ManagerDocuments = (props) => {
                                 type="submit" 
                                 variant="contained" 
                                 color="secondary"
+                                className="btnPrimary"
                                 disabled={ buttonDisabled }    
                             >
                                 <span className="monserrat500"> {textButton} </span>

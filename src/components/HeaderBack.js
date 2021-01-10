@@ -87,12 +87,12 @@ function HeaderBack(props) {
 
   const menu = [
     {
-      name: 'Home',
+      name: 'Inicio',
       url: '/back/dashboard' ,
       type : 'link' 
     },
     {
-      name: 'Presupuestos',
+      name: 'Valores',
       url: '/back/presupuesto' ,
       type : 'link' 
     },
@@ -107,7 +107,7 @@ function HeaderBack(props) {
       type : 'link' 
     },
     {
-      name: 'Envío Correos',
+      name: 'Campañas',
       url: '/back/correos' ,
       type : 'link' 
     } ,
@@ -212,8 +212,8 @@ function HeaderBack(props) {
                                   displayEmpty
                                   
                                 >
-                                  <MenuItem value="" disabled>
-                                    {user.nombres}
+                                  <MenuItem value="" disabled >
+                                    <span className="monserrat700"> { user.nombres}</span> 
                                   </MenuItem>
                                   <MenuItem   onClick={async e => await closeSession(e)} value={10}>Cerrar sesión</MenuItem>
                                 </Select>

@@ -6,7 +6,7 @@
 }
 
 .monserrat700{
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif ;
     font-weight: 700;
 }
 
@@ -29,6 +29,11 @@
     background-color: #47a5a5 !important;
 }
 
+.btnPrimary:hover{
+    background-color: #50b7b7 !important;
+}
+
+
 .btnSecondary{
     background-color: #4384af !important;
 }
@@ -36,4 +41,12 @@
 .btnTertiary{
     background-color: #cbe3f3 !important;
     color: rgb(128, 128, 128) !important;
+}
+
+.btnWarning{
+    background-color: rgb(158 27 27) !important;
+}
+
+.btnWarning:hover{
+    background-color: rgb(177 35 35) !important;
 }

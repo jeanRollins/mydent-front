@@ -17,7 +17,8 @@ import  {
     DialogContent ,
     DialogContentText ,
     DialogActions  ,
-    Snackbar
+    Snackbar ,
+    IconButton
   }  from '@material-ui/core/';
 
 import {
@@ -239,7 +240,6 @@ const Budget = props => {
          } ; 
 
         const response = await AddItem( data ) ;
-        console.log( 'response', response )
 
         if( !response.action ){
             setTextMessageFail('Hubo un problema al agregar presupuesto, intente más tarde') ;
@@ -267,7 +267,7 @@ const Budget = props => {
             headerName: 'Acciones' , 
             width: 200 , 
             disableClickEventBubbling: true,
-            renderCell: (params: CellParams) => {
+            renderCell: params => {
 
                 const onClick  = () => {
                     const api: GridApi = params.api;
@@ -281,24 +281,15 @@ const Budget = props => {
                       thisRow[f] = params.getValue(f);
                     });
 
-                    console.log('thisRow**',thisRow) ;
-
                     setItemForDelete(thisRow.id) ;
                     handleClickOpen() ;
                 }
 
                 return(
                     <>
-                       
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className=""
-                            startIcon = {<DeleteIcon />}
-                            onClick   = { e => onClick() } 
-                        >
-                            <span className="monserrat500"> Borrar </span>
-                        </Button>
+                        <IconButton aria-label="delete" onClick   = { e => onClick() } >
+                            <DeleteIcon fontSize="large" />
+                        </IconButton>
                     </>
                   
                 )  ;
@@ -434,7 +425,7 @@ const Budget = props => {
                         lg = { 3 } 
                         xl = { 3 } 
                     >
-                        <Button variant="contained" disabled={buttonDisabled} color="primary" onClick={ e => addItem() }>
+                        <Button variant="contained" disabled={buttonDisabled} className="btnPrimary" color="primary" onClick={ e => addItem() }>
                             <span className="monserrat400">Agregar </span>
                         </Button>
                         { (textTreatmentEmpty) && <p style={ styles.colorFail }> Tratamiento requerido</p>  }

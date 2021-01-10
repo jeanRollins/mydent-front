@@ -8,6 +8,7 @@ import {
     InputAdornment,
     Container,
     TextField,
+    IconButton
 } from '@material-ui/core/';
 
 import SpinnerLoad from '../components/SpinnerLoad';
@@ -21,7 +22,7 @@ import { getUserAndPacient } from '../services/Users';
 
 import { searhPatient } from '../services/Patient';
 import { rutFormater } from '../libs/Commons';
-
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -76,16 +77,9 @@ const Pacient = props => {
 
                 return (
                     <>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className="btnPrimary"
-                            startIcon={<AssignmentOutlinedIcon />}
-                            onClick={e => onClick()}
-                        >
-                            <span className="monserrat500"> Ver ficha </span>
-                        </Button>
-
+                        <IconButton onClick={e => onClick()} >
+                            <DescriptionIcon fontSize="large" />
+                        </IconButton>
                     </>
 
                 );

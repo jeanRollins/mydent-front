@@ -44,16 +44,16 @@ function Emails({history}) {
 
   const columns = [
     { field: 'id', headerName: 'N°', width: 50 },
-    { field: 'nombre', headerName: 'Nombre Campaña', width: 180 },
-    { field: 'tipo', headerName: 'TIpo Campaña', width: 150 },
-    { field: 'descripcion', headerName: 'Descripcion', width: 250 },
-    { field: 'fecha_creado', headerName: 'Fecha Creacion', width: 150 },
+    { field: 'nombre', headerName: 'Nombre', width: 180 },
+    { field: 'tipo', headerName: 'Tipo', width: 150 },
+    { field: 'descripcion', headerName: 'Descripción', width: 250 },
+    { field: 'fecha_creado', headerName: 'Fecha Creación', width: 150 },
     { field: 'fecha_lanzamiento', headerName: 'Fecha lanzamiento', width: 200 },
     
     
     {
       field: 'action',
-      headerName: 'Envio',
+      headerName: 'Envío',
       width: 100,
       disableClickEventBubbling: true,
       renderCell: (params) => {
@@ -251,7 +251,7 @@ function Emails({history}) {
   return (campaign !== false && campaignData !== false) ? (
     <>
 
-      <Title title="Gestion de Campañas" />
+      <Title title="Gestión de Campañas" />
 
       <Container fixed>
 
@@ -282,6 +282,7 @@ function Emails({history}) {
               color="primary"
               variant="contained"
               onClick={handleClickOpen}
+              className = "btnPrimary"
               startIcon={<PostAddIcon />}
             >
               Agregar
@@ -329,7 +330,7 @@ function Emails({history}) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Creacion de Campaña"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Creación de Campaña"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             En este apartado se debe colocar los datos para la creacion de una campaña colocando titulo,tipo

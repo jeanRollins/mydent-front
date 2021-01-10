@@ -259,7 +259,7 @@ const MedicalRecord = (props) => {
     return (patient !== false && historyData !== false) ? (
         <>
 
-            <Title title="Ficha Medica" />
+            <Title title="Ficha Médica" />
 
             <Container fixed>
 
@@ -351,7 +351,7 @@ const MedicalRecord = (props) => {
                         <Link style={{ textDecoration: 'none' }} to={`/back/gestion_documentos/${patient.rut}`}>
                             <Button
                                 fullWidth
-                                className = "btnSecondary"
+                                className = "btnPrimary"
                                 variant="contained"
                                 color="primary">Documentos</Button>
                         </Link>
@@ -382,7 +382,7 @@ const MedicalRecord = (props) => {
                         lg={2}
                         xl={2}>
                         <Link style={{ textDecoration: 'none' }} to={ `/back/gestion_dicom/${ patient.rut }`}>
-                            <Button fullWidth className={ classes.margin } style={{ background: '#9F9F9F', color: 'white' }}
+                            <Button fullWidth className="btnPrimary" style={{ background: '#9F9F9F', color: 'white' }}
                                 variant="contained" color="default" >Archivos DICOM</Button>
                         </Link>
                     </Grid>
@@ -397,7 +397,7 @@ const MedicalRecord = (props) => {
 
                         <Link style={{ textDecoration: 'none' }} to={`/back/editar_ficha/${patient.rut}`} >
 
-                            <Button fullWidth className="btnTertiary" style={{ background: '#D0A200', color: 'white' }}
+                            <Button fullWidth className="btnPrimary" style={{ background: '#D0A200', color: 'white' }}
                                 variant="contained" >Editar Ficha</Button>
                         </Link>
                     </Grid>
@@ -411,7 +411,7 @@ const MedicalRecord = (props) => {
                         xl={2}
                     >
 
-                        <Button fullWidth onClick={handleClickOpenDelete} className={classes.margin}
+                        <Button fullWidth onClick={handleClickOpenDelete} className="btnWarning"
                             variant="contained" style={{ background: '#B30000', color: 'white' }} >Eliminar Ficha</Button>
                     </Grid>
 
