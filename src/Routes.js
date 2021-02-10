@@ -7,10 +7,11 @@ import Home from './pages/Home' ;
 import RegisterPrincipal from './pages/RegisterPrincipal' ;
 import RegisterLast from './pages/RegisterLast' ;
 import MailValidate from './pages/MailValidate' ;
-
+import ChangePassword from './pages/ChangePassword' ;
 
 //Pages AppBack
 import RecoveryPass from './pages/RecoveryPass' ;
+
 import Budget from './pages/Budget' ;
 import Dashboard from './pages/Dashboard' ;
 import Emails from './pages/Emails' ;
@@ -36,6 +37,10 @@ export default function Routes(props){
                 <>
                     <Route path="/"  exact component = { Welcome } />
                     <Route path="/login"  exact component = { Home } /> 
+                    <Route path="/recoverypass"  exact component = { RecoveryPass } /> 
+                    <Route path="/changepassword/:mailToken"  exact children = { <ChangePassword/> } /> 
+
+                    
                     <Route path="/registro"  exact component = { RegisterPrincipal } /> 
                     <Route path="/registroContraseña"  exact component = { RegisterLast } /> 
                     <Route path="/mail_validate/:codMail"    children = { <MailValidate/> } />     

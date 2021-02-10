@@ -21,6 +21,14 @@ export const ValidEmail = async email => {
     return response.data.isValid ;
 }
 
+
+export const RecoveryPassword = async rut => {
+    const data = { rut } ;
+    const url = RUTE_SERVICE + '/login/recoverypass' ;
+    const response = await axios.post( url , data ) ;
+    return response.data ;
+}
+
 export const ValidRut = async rut  =>  {
     const data = { rut } ;
     const url = RUTE_SERVICE + '/user/ValidateRutExist' ;
@@ -34,4 +42,19 @@ export const CheckMail = async codMail  =>  {
     const response = await axios.post( url , data ) ;
     return response.data ;
 }
+
+export const ValidTokenEmail = async token  =>  {
+    const data = { token } ;
+    const url = RUTE_SERVICE + '/login/validTokenEmail' ;
+    const response = await axios.post( url , data ) ;
+    return response.data ;
+}
+
+export const ChangePass = async (token , password1, password2 )  =>  {
+    const data = { token , password1, password2 } ;
+    const url = RUTE_SERVICE + '/login/ChangePassword' ;
+    const response = await axios.post( url , data ) ;
+    return response.data ;
+}
+
 
