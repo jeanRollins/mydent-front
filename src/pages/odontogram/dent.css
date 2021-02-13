@@ -2,10 +2,24 @@
     margin-top: 10px;
     position: relative;
     width: 70px;
-    height: auto;
     display: inline-table;
     margin-left: 5px;
     
+}
+
+@media print {
+    .noPrint{
+      display:none;
+    }
+
+    .diente{
+        margin-top: 10px;
+        position: relative;
+        width: 70px;
+        display: inline-table;
+        margin-left: 5px;
+        
+    }
 }
 
 .cuadro {

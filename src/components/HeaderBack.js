@@ -136,7 +136,7 @@ function HeaderBack(props) {
   return (
     <>
       {user &&
-        <div style={styles.header} >
+        <div style={styles.header}  className="noPrint" >
 
           <Container maxWidth="xl" >
             <Grid container >

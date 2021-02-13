@@ -24,7 +24,8 @@ import {
     DialogContentText ,
     DialogActions  ,
     Dialog ,
-    Grid
+    Grid ,
+    Box
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +55,8 @@ const BudgetShow = () => {
     const [ patient, setPatient ] = useState(false);
     const [ itemsBudget, setItemsBudget] = useState( false );
     const [ open, setOpen ] = useState(false);
+    const [ totalValue, setTotalValue ] = useState(false);
+
     const [ idItem, setIdItem ] = useState('');
 
 
@@ -89,6 +92,9 @@ const BudgetShow = () => {
         setItemsBudget( data.items ) ;
         setUser( us ) ;
         fetchTooths( data.dataTrataments ) ;
+        let val = 0 ;
+        data.items.forEach( row => val = val + row.value ) ;
+        setTotalValue( format( val ) ) ;
     }
 
 
@@ -256,7 +262,7 @@ const BudgetShow = () => {
                 { tooths.map( tooth => (
                     <div  
                         key       = { tooth } 
-                        className = "diente"  
+                        className = "diente noPrint "
                     >
                         <p align="center" >
                             {tooth}
@@ -295,9 +301,11 @@ const BudgetShow = () => {
         )
     }
 
-    return  ( user  !== false )   &&
-            ( patient !== false )  &&
+    return  ( user         !== false )   &&
+            ( patient      !== false )  &&
+            ( totalValue   !== false )  &&
             ( itemsBudget  !== false )  
+            
             ? (
             <>
                 <Dialog
@@ -322,7 +330,7 @@ const BudgetShow = () => {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Title title="Presupuestos" />
+                <Title title="Presupuesto" />
 
             
                 <Container fixed>
@@ -333,8 +341,8 @@ const BudgetShow = () => {
                             xs={12}
                             sm={12}
                             md={2}
-                            lg={3}
-                            xl={3}
+                            lg={2}
+                            xl={2}
                         >
                             Rut : {rutFormater(patient.rut)}
 
@@ -348,7 +356,7 @@ const BudgetShow = () => {
                             lg={4}
                             xl={4}
                         >
-                            Nombre : { patient.name }
+                            Paciente : { patient.name }
 
                         </Grid>
 
@@ -361,6 +369,18 @@ const BudgetShow = () => {
                             xl={3}
                         >
                             Previsión  : { patient.namePrevision }
+
+                        </Grid>
+
+                        <Grid
+                            item
+                            xs={12}
+                            sm={12}
+                            md={3}
+                            lg={3}
+                            xl={3}
+                        >
+                            Dr :  { user.nombres }
 
                         </Grid>
 
@@ -388,15 +408,58 @@ const BudgetShow = () => {
                             lg={2}
                             xl={2}
                         >
-                            <Title title="Presupuesto" type="secondary" />
+                            <Title title="Tratamiento" type="secondary" />
                         
                         </Grid>
 
                     </Grid>
                 </Container>
-                <Container fixed >
+                <Container fixed  >
                     
                     {RenderItems()}
+                </Container>
+                <Container className={classes.margin} >
+
+                    <Grid container>
+                        <Grid
+                            item
+                            xs={6 }
+                            sm={6}
+                            md={6}
+                            lg={6}
+                            xl={6}
+                        >
+                            <Box justifyContent="center">
+                                <h1 align="center">Total : ${totalValue} </h1> 
+
+                            </Box>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={6 }
+                            sm={6}
+                            md={6}
+                            lg={6}
+                            xl={6}
+                        >
+                            <Box justifyContent="center"> 
+                                <div className  = " noPrint" >
+                                    <Button 
+                                        align      = "center"  
+                                        className  = "btnPrimary noPrint" 
+                                        variant    = "contained" 
+                                        onClick    = { e => window.print() } 
+                                        color      = "primary"
+                                        style      = {{ marginTop: '23px' }}
+                                    >
+                                        Imprimir
+                                    </Button>
+                                </div>
+                                
+                            </Box>
+                        </Grid>
+
+                    </Grid>
                 </Container>
                 
             </>
