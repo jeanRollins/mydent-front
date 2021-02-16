@@ -55,9 +55,8 @@ const BudgetShow = () => {
     const [ patient, setPatient ] = useState(false);
     const [ itemsBudget, setItemsBudget] = useState( false );
     const [ open, setOpen ] = useState(false);
-    const [ totalValue, setTotalValue ] = useState(false);
-
     const [ idItem, setIdItem ] = useState('');
+    const [ totalValue, setTotalValue ] = useState(false);
 
 
     const toothsRefs= useRef([{}]);
@@ -262,7 +261,7 @@ const BudgetShow = () => {
                 { tooths.map( tooth => (
                     <div  
                         key       = { tooth } 
-                        className = "diente noPrint "
+                        className = "diente"  
                     >
                         <p align="center" >
                             {tooth}
@@ -301,11 +300,9 @@ const BudgetShow = () => {
         )
     }
 
-    return  ( user         !== false )   &&
-            ( patient      !== false )  &&
-            ( totalValue   !== false )  &&
+    return  ( user  !== false )   &&
+            ( patient !== false )  &&
             ( itemsBudget  !== false )  
-            
             ? (
             <>
                 <Dialog
@@ -330,7 +327,7 @@ const BudgetShow = () => {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Title title="Presupuesto" />
+                <Title title="Presupuestos" />
 
             
                 <Container fixed>
@@ -341,8 +338,8 @@ const BudgetShow = () => {
                             xs={12}
                             sm={12}
                             md={2}
-                            lg={2}
-                            xl={2}
+                            lg={3}
+                            xl={3}
                         >
                             Rut : {rutFormater(patient.rut)}
 
@@ -356,7 +353,7 @@ const BudgetShow = () => {
                             lg={4}
                             xl={4}
                         >
-                            Paciente : { patient.name }
+                            Nombre : { patient.name }
 
                         </Grid>
 
@@ -369,18 +366,6 @@ const BudgetShow = () => {
                             xl={3}
                         >
                             Previsión  : { patient.namePrevision }
-
-                        </Grid>
-
-                        <Grid
-                            item
-                            xs={12}
-                            sm={12}
-                            md={3}
-                            lg={3}
-                            xl={3}
-                        >
-                            Dr :  { user.nombres }
 
                         </Grid>
 
@@ -408,17 +393,17 @@ const BudgetShow = () => {
                             lg={2}
                             xl={2}
                         >
-                            <Title title="Tratamiento" type="secondary" />
+                            <Title title="Presupuesto" type="secondary" />
                         
                         </Grid>
 
                     </Grid>
                 </Container>
-                <Container fixed  >
+                <Container fixed >
                     
                     {RenderItems()}
                 </Container>
-                <Container className={classes.margin} >
+                 <Container className={classes.margin} >
 
                     <Grid container>
                         <Grid

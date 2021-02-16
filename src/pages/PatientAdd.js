@@ -126,13 +126,13 @@ const PatientAdd = ({history}) => {
         }
 
         if( patient.email == '' || !patient.email ){
-            setTextMessageFail('Email paterno requerido') ;
+            setTextMessageFail('Email  requerido') ;
             openToastrSnackError() ;
             return false ; 
         }
 
         if( patient.prevision == '' || !patient.prevision ){
-            setTextMessageFail('Previsión paterno requerido') ;
+            setTextMessageFail('Previsión  requerido') ;
             openToastrSnackError() ;
             return false ; 
         }
