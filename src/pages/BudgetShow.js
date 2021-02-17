@@ -338,8 +338,8 @@ const BudgetShow = () => {
                             xs={12}
                             sm={12}
                             md={2}
-                            lg={3}
-                            xl={3}
+                            lg={2}
+                            xl={2}
                         >
                             Rut : {rutFormater(patient.rut)}
 
@@ -368,6 +368,21 @@ const BudgetShow = () => {
                             Previsión  : { patient.namePrevision }
 
                         </Grid>
+
+
+                        <Grid
+                            item
+                            xs={12}
+                            sm={12}
+                            md={3}
+                            lg={3}
+                            xl={3}
+                        >
+                            Dr  : { user.nombres }
+
+                        </Grid>
+                        
+
 
 
 
