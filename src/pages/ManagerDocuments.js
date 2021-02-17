@@ -1,7 +1,7 @@
 import { addDocument, cloudinary, DeleteDocument, getDocumentByUserAndPacient } from '../services/Documents';
 import React, { useEffect, useState, useRef } from 'react';
 import Title from '../components/Title';
-import { Container, FormControl, TextField, Select, InputLabel, Button, TextareaAutosize, IconButton ,Grid, MenuItem, Snackbar } from '@material-ui/core'
+import { Container, FormControl, TextField, Select, InputLabel, Button, TextareaAutosize, IconButton ,Grid, MenuItem, Snackbar, Dialog, DialogTitle, DialogContentText, DialogActions, DialogContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import TableResponsive from '../components/Table';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -62,10 +62,20 @@ const ManagerDocuments = (props) => {
         file: ''
     })
 
+    const [openDelete, setOpenDelete] = useState(false)
+
     const refName = useRef('');
     const refDescription = useRef('');
     const refType = useRef('');
     const refFile = useRef('');
+
+    const handleClickOpenDelete = () => {
+        setOpenDelete(true)
+    }
+
+    const handleCloseDelete = () => {
+        setOpenDelete(false)
+    }
 
 
     const closeOpenSnackError  = () => setOpenSnackError( false ) ;
@@ -161,9 +171,35 @@ const ManagerDocuments = (props) => {
     
                 return(
                     <>
-                        <IconButton aria-label="delete" onClick   = { e => onClick() } >
+                    
+                        <IconButton aria-label="delete" onClick   = {e => handleClickOpenDelete() } >
                             <DeleteIcon fontSize="large" />
                         </IconButton>
+                        
+            <Dialog
+                disableEscapeKeyDown
+                disableBackdropClick
+                open={openDelete}
+                onClose={handleCloseDelete}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle
+                    id="alert-dialog-title">{"Eliminar documentos"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Esté seguro que desea ELIMINAR este documento?
+          </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDelete} color="secondary">
+                        Cancelar
+                    </Button>
+                    <Button onClick={e => onClick()} color="primary" autoFocus>
+                        SI
+                    </Button>
+                </DialogActions>
+            </Dialog>
                     </>
                   
                 )  ;
@@ -489,6 +525,8 @@ const ManagerDocuments = (props) => {
                 <span className="monserrat400">  { textMessageFail } </span>
                 </Alert>
             </Snackbar>
+
+
         </>
     ) : (
         <SpinnerLoad/>

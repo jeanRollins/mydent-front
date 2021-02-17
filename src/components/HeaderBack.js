@@ -7,6 +7,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { ClearStorage } from '../libs/Storage';
 import { DayCurrent } from '../libs/Commons';
 import { Fragment } from 'react';
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 
 
 const styles = {
@@ -213,7 +214,12 @@ function HeaderBack(props) {
                                   
                                 >
                                   <MenuItem value="" disabled >
-                                    <span className="monserrat700"> { user.nombres}</span> 
+                                    <span className="monserrat700">  
+                                      <span style = {{ position: 'relative', top: '6px' }}>
+                                        <AccountCircleRoundedIcon/> 
+                                      </span>
+                                      { user.nombres} 
+                                    </span> 
                                   </MenuItem>
                                   <MenuItem   onClick={async e => await closeSession(e)} value={10}>Cerrar sesión</MenuItem>
                                 </Select>

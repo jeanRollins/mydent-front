@@ -44,6 +44,8 @@ export const Dicom = () => {
     const [ files, setFiles] = useState( false );
     const [ id, setId ] = useState( '' );
     const [ url, setUrl ] = useState( '' );
+    const [ btnFileDicom, setBtnFileDicom ] = useState( 'CARGAR ARCHIVO' );
+
 
     const [ buttonText , setTextButton ] = useState( 'AGREGAR' ) ;
     const [ buttonDisabled , setButtonDisabled ] = useState( false ) ;
@@ -66,10 +68,16 @@ export const Dicom = () => {
         const us = await GetItemJson('user');
         const patientFounded = await GetPatient( rutPatient );
         const filesDicom = await GetFilesDicomByPatient( us.rut , rutPatient );
-        console.log( 'filesDicom***' , filesDicom)
+ 
         setFiles( filesDicom ) ;
         setUser(us);
         setPatient(patientFounded.data);
+    }
+
+    const changeStateFile = () => {
+        const state = file.current.files[0].name ;
+
+        state == '' || state == undefined ? setBtnFileDicom("CARGAR ARCHIVO") :  setBtnFileDicom(state) ;
     }
 
     const validateForm = () => {
@@ -92,11 +100,27 @@ export const Dicom = () => {
             return false ;
         }
 
+        const extension = file.current.files[0].name.substring( file.current.files[0].name.length - 3 ) ;
+
+        console.log('extension' , extension);
+   
+        if( extension !== 'dcm' ){
+            setTextMessageFail('Debe agregar un archivo con la extensión .dcm');
+            openToastrSnackError();
+            return false ;
+        }
+
         return true ;
     }
+
+    const resetForm = () => {
+        setBtnFileDicom("CARGAR ARCHIVO")
+        setDescription('') ;
+        setTitle('') ;
+        formDicom.current.reset()  ;
+    } 
     const addDicomFile = async () => {
         activeStateButton() ;
-        //console.log( 'file' , file.current.files[0])
 
         const isValid = validateForm() ;
 
@@ -104,17 +128,15 @@ export const Dicom = () => {
             originalStateButton() ;
             return false ;
         }
-      
+
         const f = formDicom.current ;
         const form = new FormData( f ) ; 
         const responseAddFile = await AddFile( form ) ;
-        console.log('responseAddFile**' , responseAddFile ) ;
 
         if( !responseAddFile.action ){
             setTextMessageFail('Hubo un problemas al subir la imagen, intente más tarde');
             openToastrSnackError();
             originalStateButton() ;
-
             return false ;
         }
 
@@ -128,6 +150,7 @@ export const Dicom = () => {
             return false ;
         }
 
+        resetForm() ;
         setPatient( false ) ;
         fetch() ;
         openSnackbar() ;
@@ -160,7 +183,7 @@ export const Dicom = () => {
     const handleClose = () =>  setOpen(false)
 
     const deleteItem = params => {
-        console.log( 'params' , params)
+
         setId( params.row.id );
         setUrl( params.row.url ) ;
         handleClickOpen() ;
@@ -273,7 +296,7 @@ export const Dicom = () => {
                 </DialogActions>
             </Dialog>
 
-            <Title title="Gestion de archivos DICOM" />
+            <Title title="Gestión de archivos DICOM" />
 
             <Container>
                 <Grid container spacing={1} style={{ marginTop: '50px' }} alignItems="center" >
@@ -385,6 +408,7 @@ export const Dicom = () => {
                             rows = { 4 }
                             fullWidth
                             name = "description"
+                            value = { description }
                             onChange = { e => setDescription( e.target.value )}
                         />    
                         <br/>
@@ -398,6 +422,7 @@ export const Dicom = () => {
                             hidden
                             type  = "file"
                             ref   = { file }
+                            onChange = { e => changeStateFile() }
                             name  = "dicomfile"
                         />
                         <label htmlFor="contained-button-file">
@@ -407,7 +432,7 @@ export const Dicom = () => {
                                 component="span"
                                 fullWidth 
                             >
-                                CARGAR ARCHIVO
+                                {btnFileDicom}
                             </Button>
                         </label>
                     </form>    

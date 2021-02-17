@@ -157,7 +157,7 @@ const Pacient = props => {
                         <TextField
                             fullWidth
                             onChange={ e => handleSearch( e.target.value ) }
-                            placeholder="Ej: Luis Tapia"
+                            placeholder="Ej: 11222333-4"
                             id="standard-full-width"
                             InputProps={{
                                 startAdornment: (

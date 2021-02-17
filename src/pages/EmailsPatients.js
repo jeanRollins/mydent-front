@@ -115,7 +115,7 @@ const EmailsPatients = ({history}) => {
         }
 
         if ( prepareEmail.items === undefined || !prepareEmail ) {
-            setTextMessageFail('Debe selecionar minimo 1 correo');
+            setTextMessageFail('Debe selecionar mínimo 1 correo');
             openToastrSnackError();
             originalStateButton() ;
             return false

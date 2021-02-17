@@ -158,13 +158,13 @@ const EditRecords = ({ history }) => {
         }
 
         if (UpdatePatient.correo == '' || !UpdatePatient.correo) {
-            setTextMessageFail('Email paterno requerido');
+            setTextMessageFail('Email  requerido');
             openToastrSnackError();
             return false;
         }
 
         if (UpdatePatient.prevision == '' || !UpdatePatient.prevision) {
-            setTextMessageFail('Previsión paterno requerido');
+            setTextMessageFail('Previsión  requerido');
             openToastrSnackError();
             return false;
         }

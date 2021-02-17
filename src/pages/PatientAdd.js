@@ -164,7 +164,9 @@ const PatientAdd = ({history}) => {
 
         const isEmailExist =  await ValidatePatientExistByUser( 'email' , patient.email ) ;
 
-        if( !isEmailExist ){
+        console.log('isEmailExist*****' , isEmailExist) ;
+
+        if( !isEmailExist.action ){
             setTextMessageFail('El correo ya está ingresado en nuestro sistema') ;
             openToastrSnackError() ;
             return false ;
@@ -565,11 +567,12 @@ const PatientAdd = ({history}) => {
                         xl = { 3 } 
                     >
                         <Button 
-                            variant="contained" 
-                            color="secondary" 
-                            style= { styles.inputWidth } 
-                            onClick={ e => addPatient() }
-                            disabled={ buttonDisabled }
+                            variant   = "contained" 
+                            color     = "secondary" 
+                            className = "btnPrimary"
+                            style     = { styles.inputWidth } 
+                            onClick   = { e => addPatient() }
+                            disabled  = { buttonDisabled }
                         >
                             <span className="monserrat500"> {textButton} </span>
                         </Button>

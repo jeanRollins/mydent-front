@@ -335,7 +335,7 @@ const Budget = props => {
                 </DialogActions>
             </Dialog>
 
-            <Title title = { "Valores Presupuesto" } />
+            <Title title = { "Valores tratamientos" } />
 
 
             <Container fixed>
