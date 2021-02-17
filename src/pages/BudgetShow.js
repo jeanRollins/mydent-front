@@ -261,7 +261,7 @@ const BudgetShow = () => {
                 { tooths.map( tooth => (
                     <div  
                         key       = { tooth } 
-                        className = "diente"  
+                        className = "diente noPrint"  
                     >
                         <p align="center" >
                             {tooth}
